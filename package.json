@@ -4,6 +4,7 @@
   "description": "",
   "main": "server.js",
   "dependencies": {
+    "bootstrap": "^4.3.0",
     "hapi": "^18.1.0",
     "hapi-pino": "^5.4.1",
     "inert": "^5.1.2",
