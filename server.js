@@ -86,6 +86,7 @@ const init = async () => {
         method: 'GET',
         path: '/start-flowing',
         handler: (request, h) => {
+            console.log('startFlowing');
             startFlowing();
             return 'Flowing started !';
         }
@@ -94,6 +95,7 @@ const init = async () => {
         method: 'GET',
         path: '/stop-flowing',
         handler: (request, h) => {
+            console.log('stopFlowing');
             stopFlowing();
             return 'Flowing stopped !';
         }
