@@ -81,7 +81,19 @@ class App extends Component {
                 clearInterval(this.countdownTimer);
             }
         }, 1000);
-    };
+    }
+
+    startFlowing() {
+        fetch('/start-flowing')
+            .then((res) => console.log(res))
+            .catch((err) => console.error(err));
+    }
+
+    stopFlowing() {
+        fetch('/stop-flowing')
+            .then((res) => console.log(res))
+            .catch((err) => console.error(err));
+    }
 
     render() {
         return (
@@ -127,6 +139,16 @@ class App extends Component {
                                     </div>
                                 </div>
                             }
+
+                            <div className="row">
+                                <button type="btn" className="btn btn-success" onClick={this.startFlowing}>
+                                    start flowing
+                                </button>
+
+                                <button type="btn" className="btn btn-danger" onClick={this.stopFlowing}>
+                                    stop flowing
+                                </button>
+                            </div>
                         </div>
                 }
             </div>

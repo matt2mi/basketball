@@ -6,7 +6,7 @@ const Gpio = require('onoff').Gpio;
 
 // Create a server with a host and port
 const server = Hapi.server({
-    host: process.env.HOST || 'localhost',
+    //host: process.env.HOST || 'localhost',
     port: process.env.PORT || 3000,
     routes: {
         files: {
