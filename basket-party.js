@@ -7,15 +7,34 @@ const LED4 = new Gpio(3, 'out');
 const LED5 = new Gpio(4, 'out');
 const LED6 = new Gpio(5, 'out');
 
-const blinkInterval = setInterval(blinkLedOnStart, 150); //run the blinkLED function every 250ms
+LED1.writeSync(0);
+LED2.writeSync(0);
+LED3.writeSync(0);
+LED4.writeSync(0);
+LED5.writeSync(0);
+LED6.writeSync(0);
 
-function blinkLedOnStart() { //function to start blinking
-    LED1.writeSync(!LED1.readSync());
-    LED2.writeSync(!LED1.readSync());
-    LED3.writeSync(!LED1.readSync());
-    LED4.writeSync(!LED1.readSync());
-    LED5.writeSync(!LED1.readSync());
-    LED6.writeSync(!LED1.readSync());
+const blinkInterval = setInterval(blinkLedOnStart, 150); //run the blinkLED function every 250ms
+let state = 1;
+
+function blinkLedOnStart() {
+    if(state) {
+        state = 0;
+        LED1.writeSync(1);
+        LED2.writeSync(1);
+        LED3.writeSync(1);
+        LED4.writeSync(1);
+        LED5.writeSync(1);
+        LED6.writeSync(1);
+    } else {
+        state = 1;
+        LED1.writeSync(0);
+        LED2.writeSync(0);
+        LED3.writeSync(0);
+        LED4.writeSync(0);
+        LED5.writeSync(0);
+        LED6.writeSync(0);
+    }
 }
 
 function endBlink() {
