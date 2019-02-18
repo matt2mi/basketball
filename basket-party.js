@@ -26,9 +26,14 @@ function endBlink() {
     LED4.writeSync(0);
     LED5.writeSync(0);
     LED6.writeSync(0);
-}
 
-// LED.unexport(); // Unexport GPIO to free resources
+    LED1.unexport();
+    LED2.unexport();
+    LED3.unexport();
+    LED4.unexport();
+    LED5.unexport();
+    LED6.unexport();
+}
 
 setTimeout(endBlink, 2000); //stop blinking after 5 seconds
 
