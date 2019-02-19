@@ -146,7 +146,7 @@ const ECHO = new Gpio(24, 'in');
 
     console.log('startParty');
     const startParty = Date.now();
-    gameOn();
+    await gameOn();
     console.log(`Fin de partie en ${(Date.now() - startParty) * 1000} secondes`);
 })();
 
