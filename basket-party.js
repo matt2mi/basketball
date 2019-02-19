@@ -140,14 +140,14 @@ const ECHO = new Gpio(24, 'in');
         }
 
         if(score <= 10) {
-            gameOn();
+            await gameOn();
         }
     };
 
     console.log('startParty');
     const startParty = Date.now();
     await gameOn();
-    console.log(`Fin de partie en ${(Date.now() - startParty) * 1000} secondes`);
+    console.log(`Fin de partie en ${(Date.now() - startParty) / 1000} secondes`);
 })();
 
 
