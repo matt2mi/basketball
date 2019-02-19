@@ -65,12 +65,7 @@ const ECHO = new Gpio(24, 'in');
     let score = 0;
     let swishing = false;
 
-    const swishingFct = async () => {
-        console.log('swish !!');
-        swishing = true;
-        score = score + 2;
-        console.log(`score: ${score} points`);
-
+    async function lightOneByOne() {
         LED1.writeSync(1);
         await setTimeout(() => {
         }, 150);
@@ -89,7 +84,9 @@ const ECHO = new Gpio(24, 'in');
         LED6.writeSync(1);
         await setTimeout(() => {
         }, 150);
+    }
 
+    async function lightOffOneByOne() {
         LED1.writeSync(0);
         await setTimeout(() => {
         }, 150);
@@ -106,6 +103,24 @@ const ECHO = new Gpio(24, 'in');
         await setTimeout(() => {
         }, 150);
         LED6.writeSync(0);
+        await setTimeout(() => {
+        }, 150);
+    }
+
+    const swishingFct = async () => {
+        console.log('swish !!');
+        swishing = true;
+        score = score + 2;
+        console.log(`score: ${score} points`);
+
+        await lightOneByOne();
+        await lightOffOneByOne();
+        await lightOneByOne();
+        await lightOffOneByOne();
+        await lightOneByOne();
+        await lightOffOneByOne();
+        await lightOneByOne();
+        await lightOffOneByOne();
     };
 
     const gameOn = async () => {
@@ -132,7 +147,7 @@ const ECHO = new Gpio(24, 'in');
         const distance = Math.round((finImpulsion - debutImpulsion) * 340 * 100 / 2);  // Vitesse du son = 340 m/s
 
         if (!swishing && distance <= 10) {
-            swishingFct();
+            await swishingFct();
         }
         if (swishing && distance > 10) {
             console.log('fin de swish');
