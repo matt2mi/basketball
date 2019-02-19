@@ -1,4 +1,4 @@
-const Gpio = require('onoff').Gpio; //include onoff to interact with the GPIO
+const Gpio = require('onoff').Gpio;
 
 const LED1 = new Gpio(0, 'out');
 const LED2 = new Gpio(1, 'out');
@@ -7,38 +7,12 @@ const LED4 = new Gpio(3, 'out');
 const LED5 = new Gpio(4, 'out');
 const LED6 = new Gpio(5, 'out');
 
-LED1.writeSync(0);
-LED2.writeSync(0);
-LED3.writeSync(0);
-LED4.writeSync(0);
-LED5.writeSync(0);
-LED6.writeSync(0);
+const TRIG = new Gpio(23, 'out');
+const ECHO = new Gpio(24, 'in');
 
-const blinkInterval = setInterval(blinkLedOnStart, 150); //run the blinkLED function every 250ms
-let state = 1;
+(async () => {
+    TRIG.writeSync(0);
 
-function blinkLedOnStart() {
-    if(state) {
-        state = 0;
-        LED1.writeSync(1);
-        LED2.writeSync(1);
-        LED3.writeSync(1);
-        LED4.writeSync(1);
-        LED5.writeSync(1);
-        LED6.writeSync(1);
-    } else {
-        state = 1;
-        LED1.writeSync(0);
-        LED2.writeSync(0);
-        LED3.writeSync(0);
-        LED4.writeSync(0);
-        LED5.writeSync(0);
-        LED6.writeSync(0);
-    }
-}
-
-function endBlink() {
-    clearInterval(blinkInterval);
     LED1.writeSync(0);
     LED2.writeSync(0);
     LED3.writeSync(0);
@@ -46,65 +20,143 @@ function endBlink() {
     LED5.writeSync(0);
     LED6.writeSync(0);
 
-    LED1.unexport();
-    LED2.unexport();
-    LED3.unexport();
-    LED4.unexport();
-    LED5.unexport();
-    LED6.unexport();
-}
+    let state = 1;
 
-setTimeout(endBlink, 2000); //stop blinking after 5 seconds
+    function blinkLedOnStart() {
+        if (state) {
+            state = 0;
+            LED1.writeSync(1);
+            LED2.writeSync(1);
+            LED3.writeSync(1);
+            LED4.writeSync(1);
+            LED5.writeSync(1);
+            LED6.writeSync(1);
+        } else {
+            state = 1;
+            LED1.writeSync(0);
+            LED2.writeSync(0);
+            LED3.writeSync(0);
+            LED4.writeSync(0);
+            LED5.writeSync(0);
+            LED6.writeSync(0);
+        }
+    }
+
+    const blinkInterval = setInterval(blinkLedOnStart, 150); //run the blinkLED function every 250ms
+    function endBlink() {
+        clearInterval(blinkInterval);
+        LED1.writeSync(0);
+        LED2.writeSync(0);
+        LED3.writeSync(0);
+        LED4.writeSync(0);
+        LED5.writeSync(0);
+        LED6.writeSync(0);
+
+        // LED1.unexport();
+        // LED2.unexport();
+        // LED3.unexport();
+        // LED4.unexport();
+        // LED5.unexport();
+        // LED6.unexport();
+    }
+
+    await setTimeout(endBlink, 2000); //stop blinking after 5 seconds
+
+    let score = 0;
+    let swishing = false;
+
+    const swishingFct = async () => {
+        console.log('swish !!');
+        swishing = true;
+        score = score + 2;
+        console.log(`score: ${score} points`);
+
+        LED1.writeSync(1);
+        await setTimeout(() => {
+        }, 150);
+        LED2.writeSync(1);
+        await setTimeout(() => {
+        }, 150);
+        LED3.writeSync(1);
+        await setTimeout(() => {
+        }, 150);
+        LED4.writeSync(1);
+        await setTimeout(() => {
+        }, 150);
+        LED5.writeSync(1);
+        await setTimeout(() => {
+        }, 150);
+        LED6.writeSync(1);
+        await setTimeout(() => {
+        }, 150);
+
+        LED1.writeSync(0);
+        await setTimeout(() => {
+        }, 150);
+        LED2.writeSync(0);
+        await setTimeout(() => {
+        }, 150);
+        LED3.writeSync(0);
+        await setTimeout(() => {
+        }, 150);
+        LED4.writeSync(0);
+        await setTimeout(() => {
+        }, 150);
+        LED5.writeSync(0);
+        await setTimeout(() => {
+        }, 150);
+        LED6.writeSync(0);
+    };
+
+    const gameOn = async () => {
+        await setTimeout(() => {
+        }, 0.001);
+
+        TRIG.writeSync(1);
+        await setTimeout(() => {
+        }, 0.00001);
+        TRIG.writeSync(0);
+
+        let debutImpulsion, finImpulsion = 0;
+
+        // Emission de l'ultrason
+        while (ECHO.readSync() === 0) {
+            debutImpulsion = Date.now();
+        }
+
+        // Retour de l'Echo
+        while (ECHO.readSync() === 1) {
+            finImpulsion = Date.now();
+        }
+
+        const distance = Math.round((finImpulsion - debutImpulsion) * 340 * 100 / 2);  // Vitesse du son = 340 m/s
+
+        if (!swishing && distance <= 10) {
+            swishingFct();
+            if(score <= 10) {
+                gameOn();
+            }
+        }
+        if (swishing && distance > 10) {
+            console.log('fin de swish');
+            swishing = false;
+        }
+
+        gameOn();
+    };
+
+    gameOn();
+})();
+
 
 /*
-
-import RPi.GPIO as GPIO
-import time
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 
-print "+-----------------------------------------------------------+"
-print "|   Mesure de distance par le capteur ultrasonore HC-SR04   |"
-print "+-----------------------------------------------------------+"
 
-Trig = 23          # Entree Trig du HC-SR04 branchee au GPIO 23
-Echo = 24         # Sortie Echo du HC-SR04 branchee au GPIO 24
 
-GPIO.setup(Trig,GPIO.OUT)
-GPIO.setup(Echo,GPIO.IN)
 
-GPIO.setup(0,GPIO.OUT)
-GPIO.setup(1,GPIO.OUT)
-GPIO.setup(2,GPIO.OUT)
-GPIO.setup(3,GPIO.OUT)
-GPIO.setup(4,GPIO.OUT)
-GPIO.setup(5,GPIO.OUT)
-
-GPIO.output(0, True)
-GPIO.output(1, True)
-GPIO.output(2, True)
-GPIO.output(3, True)
-GPIO.output(4, True)
-GPIO.output(5, True)
-
-time.sleep(0.1)
-
-GPIO.output(0, False)
-GPIO.output(1, False)
-GPIO.output(2, False)
-GPIO.output(3, False)
-GPIO.output(4, False)
-GPIO.output(5, False)
-
-time.sleep(0.1)
-
-GPIO.output(Trig, False)
-
-# repet = input("Cmb de tps (ms) ? : ")
-
-score = 0
-swishing = False
 
 # for x in range(repet):    # On prend la mesure "repet" fois
 while True:
