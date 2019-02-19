@@ -133,19 +133,21 @@ const ECHO = new Gpio(24, 'in');
 
         if (!swishing && distance <= 10) {
             swishingFct();
-            if(score <= 10) {
-                gameOn();
-            }
         }
         if (swishing && distance > 10) {
             console.log('fin de swish');
             swishing = false;
         }
 
-        gameOn();
+        if(score <= 10) {
+            gameOn();
+        }
     };
 
+    console.log('startParty');
+    const startParty = Date.now();
     gameOn();
+    console.log(`Fin de partie en ${(Date.now() - startParty) * 1000} secondes`);
 })();
 
 
