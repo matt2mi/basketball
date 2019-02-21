@@ -4,6 +4,9 @@ const Gpio = require('onoff').Gpio;
 module.exports = class FlowingLeds {
 
     constructor() {
+    }
+
+    init() {
         this.LED1 = new Gpio(0, 'out');
         this.LED2 = new Gpio(1, 'out');
         this.LED3 = new Gpio(2, 'out');
@@ -24,6 +27,7 @@ module.exports = class FlowingLeds {
     }
 
     start() {
+        this.init();
         // run the flowingLeds function every 100ms
         this.flowInterval = setInterval(() => this.flowingLeds(), 100);
     }
