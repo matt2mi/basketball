@@ -19,13 +19,18 @@ module.exports = class FlowingLeds {
 
         // variable for flowing direction
         this.dir = "up";
+
+        this.flowInterval = null;
     }
 
     start() {
         // run the flowingLeds function every 100ms
-        const flowInterval = setInterval(() => this.flowingLeds(), 100);
+        this.flowInterval = setInterval(() => this.flowingLeds(), 100);
+    }
+
+    stop() {
         // function to run when user closes using ctrl+cc
-        process.on('SIGINT', () => this.unexportOnClose(flowInterval));
+        this.unexportOnClose(this.flowInterval);
     }
 
     // function for flowing Leds
