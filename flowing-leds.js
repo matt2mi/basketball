@@ -37,8 +37,12 @@ module.exports = class FlowingLeds {
         this.init();
         // run the flowingLeds function every 100ms
         const intervalOn = setInterval(() => this.lightAllLeds(), 100);
-        const intervalOff = setTimeout(() => setInterval(() => this.switchOffAllLeds(), 100), 50);
-        this.intervals.push(intervalOn, intervalOff);
+        setTimeout(() => {
+                const intervalOff = setInterval(() => this.switchOffAllLeds(), 100);
+                this.intervals.push(intervalOn, intervalOff);
+            },
+            50
+        );
     }
 
     stop() {
@@ -77,8 +81,8 @@ module.exports = class FlowingLeds {
 
     unexportOnClose(flowInterval) {
         // function to run when exiting program
-        clearInterval(flowInterval); //stop flow interwal
-        this.leds.forEach(function(currentValue) { //for each LED
+        clearInterval(flowInterval);
+        this.leds.forEach(currentValue => {
             currentValue.writeSync(0); //turn off LED
             currentValue.unexport(); //unexport GPIO
         });
