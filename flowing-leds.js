@@ -23,18 +23,27 @@ module.exports = class FlowingLeds {
         // variable for flowing direction
         this.dir = "up";
 
-        this.flowInterval = null;
+        this.intervals = [];
     }
 
-    start() {
+    startFlowing() {
         this.init();
         // run the flowingLeds function every 100ms
-        this.flowInterval = setInterval(() => this.flowingLeds(), 100);
+        const flowInterval = setInterval(() => this.flowingLeds(), 100);
+        this.intervals.push(flowInterval);
+    }
+
+    startWizzing() {
+        this.init();
+        // run the flowingLeds function every 100ms
+        const intervalOn = setInterval(() => this.lightAllLeds(), 100);
+        const intervalOff = setTimeout(() => setInterval(() => this.switchOffAllLeds(), 100), 50);
+        this.intervals.push(intervalOn, intervalOff);
     }
 
     stop() {
         // function to run when user closes using ctrl+cc
-        this.unexportOnClose(this.flowInterval);
+        this.intervals.forEach(interval => this.unexportOnClose(interval));
     }
 
     // function for flowing Leds
@@ -46,6 +55,24 @@ module.exports = class FlowingLeds {
         if (this.dir === "down") this.indexCount--; //count downwards if direction is down
         this.leds[this.indexCount].writeSync(1); //turn on LED that where array index matches count
         if (this.dir === "up") this.indexCount++ //count upwards if direction is up
+    }
+
+    lightAllLeds() {
+        this.LED1.writeSync(1);
+        this.LED2.writeSync(1);
+        this.LED3.writeSync(1);
+        this.LED4.writeSync(1);
+        this.LED5.writeSync(1);
+        this.LED6.writeSync(1);
+    }
+
+    switchOffAllLeds() {
+        this.LED1.writeSync(0);
+        this.LED2.writeSync(0);
+        this.LED3.writeSync(0);
+        this.LED4.writeSync(0);
+        this.LED5.writeSync(0);
+        this.LED6.writeSync(0);
     }
 
     unexportOnClose(flowInterval) {

@@ -42,10 +42,19 @@ const init = async () => {
     });
     server.route({
         method: 'GET',
-        path: '/start',
+        path: '/flow',
         handler: (request, h) => {
             console.log('startFlowing');
-            flowingLeds.start();
+            flowingLeds.startFlowing();
+            return 'Party started !';
+        }
+    });
+    server.route({
+        method: 'GET',
+        path: '/wizz',
+        handler: (request, h) => {
+            console.log('startWizzing');
+            flowingLeds.startWizzing();
             return 'Party started !';
         }
     });
