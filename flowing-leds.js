@@ -1,42 +1,53 @@
+'use strict';
 const Gpio = require('onoff').Gpio;
 
-const LED1 = new Gpio(0, 'out');
-const LED2 = new Gpio(1, 'out');
-const LED3 = new Gpio(2, 'out');
-const LED4 = new Gpio(3, 'out');
-const LED5 = new Gpio(4, 'out');
-const LED6 = new Gpio(5, 'out');
+module.exports = class FlowingLeds {
 
-// const TRIG = new Gpio(23, 'out');
-// const ECHO = new Gpio(24, 'in');
+    constructor() {
+        this.LED1 = new Gpio(0, 'out');
+        this.LED2 = new Gpio(1, 'out');
+        this.LED3 = new Gpio(2, 'out');
+        this.LED4 = new Gpio(3, 'out');
+        this.LED5 = new Gpio(4, 'out');
+        this.LED6 = new Gpio(5, 'out');
 
-//Put all the LED variables in an array
-const leds = [LED1, LED2, LED3, LED4, LED5, LED6];
-let indexCount = 0; //a counter
-let dir = "up"; //variable for flowing direction
+        // Put all the LED variables in an array
+        this.leds = [this.LED1, this.LED2, this.LED3, this.LED4, this.LED5, this.LED6];
 
-const flowInterval = setInterval(flowingLeds, 100); //run the flowingLeds function every 100ms
+        // a counter
+        this.indexCount = 0;
 
-function flowingLeds() { //function for flowing Leds
-    leds.forEach(function(currentValue) { //for each item in array
-        currentValue.writeSync(0); //turn off LED
-    });
-    if (indexCount === 0) dir = "up"; //set flow direction to "up" if the count reaches zero
-    if (indexCount >= leds.length) dir = "down"; //set flow direction to "down" if the count reaches 7
-    if (dir === "down") indexCount--; //count downwards if direction is down
-    leds[indexCount].writeSync(1); //turn on LED that where array index matches count
-    if (dir === "up") indexCount++ //count upwards if direction is up
-}
+        // variable for flowing direction
+        this.dir = "up";
+    }
 
-function unexportOnClose() { //function to run when exiting program
-    clearInterval(flowInterval); //stop flow interwal
-    leds.forEach(function(currentValue) { //for each LED
-        currentValue.writeSync(0); //turn off LED
-        currentValue.unexport(); //unexport GPIO
-    });
-}
+    start() {
+        // run the flowingLeds function every 100ms
+        const flowInterval = setInterval(() => this.flowingLeds(), 100);
+        // function to run when user closes using ctrl+cc
+        process.on('SIGINT', () => this.unexportOnClose(flowInterval));
+    }
 
-process.on('SIGINT', unexportOnClose); //function to run when user closes using ctrl+cc
+    // function for flowing Leds
+    flowingLeds() {
+        // turn off all leds
+        this.leds.forEach(currentValue => currentValue.writeSync(0));
+        if (this.indexCount === 0) this.dir = "up"; //set flow direction to "up" if the count reaches zero
+        if (this.indexCount >= this.leds.length) this.dir = "down"; //set flow direction to "down" if the count reaches 7
+        if (this.dir === "down") this.indexCount--; //count downwards if direction is down
+        this.leds[this.indexCount].writeSync(1); //turn on LED that where array index matches count
+        if (this.dir === "up") this.indexCount++ //count upwards if direction is up
+    }
+
+    unexportOnClose(flowInterval) {
+        // function to run when exiting program
+        clearInterval(flowInterval); //stop flow interwal
+        this.leds.forEach(function(currentValue) { //for each LED
+            currentValue.writeSync(0); //turn off LED
+            currentValue.unexport(); //unexport GPIO
+        });
+    }
+};
 
 /*(async () => {
     TRIG.writeSync(0);
