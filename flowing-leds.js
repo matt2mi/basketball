@@ -57,6 +57,7 @@ module.exports = class FlowingLeds {
 
     // function for flowing Leds
     flowingLeds() {
+        this.switchOffAllLeds();
         if (this.indexCount === 0) this.dir = "up"; //set flow direction to "up" if the count reaches zero
         if (this.indexCount >= this.leds.length) this.dir = "down"; //set flow direction to "down" if the count reaches 7
         if (this.dir === "down") this.indexCount--; //count downwards if direction is down
