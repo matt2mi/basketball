@@ -3,9 +3,6 @@ const Gpio = require('onoff').Gpio;
 
 module.exports = class FlowingLeds {
 
-    constructor() {
-    }
-
     init() {
         this.LED1 = new Gpio(0, 'out');
         this.LED2 = new Gpio(1, 'out');
@@ -24,6 +21,9 @@ module.exports = class FlowingLeds {
         this.dir = "up";
 
         this.intervals = [];
+
+        // turn off all leds
+        this.switchOffAllLeds();
     }
 
     startFlowing() {
@@ -47,13 +47,16 @@ module.exports = class FlowingLeds {
 
     stop() {
         // function to run when user closes using ctrl+cc
-        this.intervals.forEach(interval => this.unexportOnClose(interval));
+        this.intervals.forEach(interval => clearInterval(interval));
+
+        this.leds.forEach(currentValue => {
+            currentValue.writeSync(0); //turn off LED
+            currentValue.unexport(); //unexport GPIO
+        });
     }
 
     // function for flowing Leds
     flowingLeds() {
-        // turn off all leds
-        this.leds.forEach(currentValue => currentValue.writeSync(0));
         if (this.indexCount === 0) this.dir = "up"; //set flow direction to "up" if the count reaches zero
         if (this.indexCount >= this.leds.length) this.dir = "down"; //set flow direction to "down" if the count reaches 7
         if (this.dir === "down") this.indexCount--; //count downwards if direction is down
@@ -77,15 +80,6 @@ module.exports = class FlowingLeds {
         this.LED4.writeSync(0);
         this.LED5.writeSync(0);
         this.LED6.writeSync(0);
-    }
-
-    unexportOnClose(flowInterval) {
-        // function to run when exiting program
-        clearInterval(flowInterval);
-        this.leds.forEach(currentValue => {
-            currentValue.writeSync(0); //turn off LED
-            currentValue.unexport(); //unexport GPIO
-        });
     }
 };
 
