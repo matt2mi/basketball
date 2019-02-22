@@ -2,8 +2,6 @@
 
 const Hapi = require('hapi');
 const Path = require('path');
-const FlowingLeds = require('./flowing-leds.js');
-let flowingLeds = new FlowingLeds();
 
 // Create a server with a host and port
 const server = Hapi.server({
@@ -38,33 +36,6 @@ const init = async () => {
             directory: {
                 path: '.'
             }
-        }
-    });
-    server.route({
-        method: 'GET',
-        path: '/flow',
-        handler: (request, h) => {
-            console.log('startFlowing');
-            flowingLeds.startFlowing();
-            return 'Party started !';
-        }
-    });
-    server.route({
-        method: 'GET',
-        path: '/wizz',
-        handler: (request, h) => {
-            console.log('startWizzing');
-            flowingLeds.startWizzing();
-            return 'Party started !';
-        }
-    });
-    server.route({
-        method: 'GET',
-        path: '/stop',
-        handler: (request, h) => {
-            console.log('stopFlowing');
-            flowingLeds.stop();
-            return 'Party stopped !';
         }
     });
 

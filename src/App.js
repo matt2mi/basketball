@@ -23,12 +23,12 @@ class App extends Component {
         this.start = this.start.bind(this);
         this.startParty = this.startParty.bind(this);
 
-        // this.cli
-        //     .connect()
-        //     .then(() => {
-        //         console.log('connected');
-        //         this.setState({connected: true});
-        //     });
+        this.cli
+            .connect()
+            .then(() => {
+                console.log('connected');
+                this.setState({connected: true});
+            });
     }
 
     cancelParty() {
@@ -84,13 +84,19 @@ class App extends Component {
     }
 
     startFlowing() {
-        fetch('/start-flowing')
+        this.cli.request('/flow')
             .then((res) => console.log(res))
             .catch((err) => console.error(err));
     }
 
-    stopFlowing() {
-        fetch('/stop-flowing')
+    startWizzing() {
+        this.cli.request('/wizz')
+            .then((res) => console.log(res))
+            .catch((err) => console.error(err));
+    }
+
+    stopLeds() {
+        this.cli.request('/stop-leds')
             .then((res) => console.log(res))
             .catch((err) => console.error(err));
     }
@@ -145,8 +151,12 @@ class App extends Component {
                                     start flowing
                                 </button>
 
-                                <button type="btn" className="btn btn-danger" onClick={this.stopFlowing}>
-                                    stop flowing
+                                <button type="btn" className="btn btn-success" onClick={this.startWizzing}>
+                                    start wizzing
+                                </button>
+
+                                <button type="btn" className="btn btn-danger" onClick={this.stopLeds}>
+                                    stop leds
                                 </button>
                             </div>
                         </div>
