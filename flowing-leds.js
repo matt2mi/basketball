@@ -21,9 +21,6 @@ module.exports = class FlowingLeds {
         this.dir = "up";
 
         this.intervals = [];
-
-        // turn off all leds
-        this.switchOffAllLeds();
     }
 
     startFlowing() {
@@ -57,7 +54,8 @@ module.exports = class FlowingLeds {
 
     // function for flowing Leds
     flowingLeds() {
-        this.switchOffAllLeds();
+        // turn off all leds
+        this.leds.forEach(currentValue => currentValue.writeSync(0));
         if (this.indexCount === 0) this.dir = "up"; //set flow direction to "up" if the count reaches zero
         if (this.indexCount >= this.leds.length) this.dir = "down"; //set flow direction to "down" if the count reaches 7
         if (this.dir === "down") this.indexCount--; //count downwards if direction is down
