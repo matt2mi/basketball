@@ -10,7 +10,7 @@ module.exports = class PiServer {
         this.laser = new LaserBarrier();
 
         this.port = 3005;
-        this.server = new Hapi.Server({port});
+        this.server = new Hapi.Server({port: this.port});
 
         this.countdownTimer = null;
         this.score = 0;

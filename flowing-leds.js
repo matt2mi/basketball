@@ -4,6 +4,7 @@ const Gpio = require('onoff').Gpio;
 module.exports = class FlowingLeds {
 
     init() {
+        console.log('flowing.js => init');
         this.LED1 = new Gpio(0, 'out');
         this.LED2 = new Gpio(1, 'out');
         this.LED3 = new Gpio(2, 'out');
@@ -22,6 +23,7 @@ module.exports = class FlowingLeds {
     }
 
     startFlowing() {
+        console.log('flowing.js => startFlowing');
         this.init();
         this.switchOffAllLeds();
 
@@ -78,6 +80,7 @@ module.exports = class FlowingLeds {
     }
 
     startWizzing() {
+        console.log('flowing.js => startWizzing');
         this.init();
 
         this.lightAllLeds();
@@ -95,6 +98,7 @@ module.exports = class FlowingLeds {
     }
 
     stop() {
+        console.log('flowing.js => stop - unexport leds');
         this.leds.forEach(currentValue => {
             currentValue.writeSync(0); //turn off LED
             currentValue.unexport(); //unexport GPIO
@@ -103,6 +107,7 @@ module.exports = class FlowingLeds {
 
     // function for flowing Leds
     flowingLeds() {
+        console.log('flowing.js => flowingLeds');
         // turn off all leds
         this.leds.forEach(currentValue => currentValue.writeSync(0));
         if (this.indexCount === 0) this.dir = "up"; //set flow direction to "up" if the count reaches zero
@@ -113,6 +118,7 @@ module.exports = class FlowingLeds {
     }
 
     lightAllLeds() {
+        console.log('flowing.js => lightAllLeds');
         this.LED1.writeSync(1);
         this.LED2.writeSync(1);
         this.LED3.writeSync(1);
@@ -122,6 +128,7 @@ module.exports = class FlowingLeds {
     }
 
     switchOffAllLeds() {
+        console.log('flowing.js => switchOffAllLeds');
         this.LED1.writeSync(0);
         this.LED2.writeSync(0);
         this.LED3.writeSync(0);
