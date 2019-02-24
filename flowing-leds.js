@@ -76,7 +76,7 @@ module.exports = class FlowingLeds {
             this.LED6.writeSync(1);
             this.LED5.writeSync(0);
         }, 1800);
-        setTimeout(() => this.stop(), 1950);
+        setTimeout(() => this.switchOffAllLeds(), 1950);
     }
 
     startWizzing() {
@@ -93,8 +93,6 @@ module.exports = class FlowingLeds {
         setTimeout(this.switchOffAllLeds, 1400);
         setTimeout(this.lightAllLeds, 1600);
         setTimeout(this.switchOffAllLeds, 1800);
-
-        this.stop();
     }
 
     stop() {

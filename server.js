@@ -3,6 +3,7 @@
 const Hapi = require('hapi');
 const Path = require('path');
 const PiServer = require('./pi-server');
+const piServer = new PiServer();
 
 // Create a server with a host and port
 const server = Hapi.server({
@@ -40,7 +41,6 @@ const init = async () => {
         }
     });
 
-    const piServer = new PiServer();
     await piServer.start();
 
     await server.start();
@@ -49,6 +49,13 @@ const init = async () => {
 
 process.on('unhandledRejection', (err) => {
     console.log(err);
+    process.exit(1);
+});
+
+process.on('SIGINT', () => {
+    console.log('killing server');
+    piServer.killProcesses();
+
     process.exit(1);
 });
 

@@ -38,6 +38,6 @@ module.exports = class LaserBarrier {
     stopListening() {
         console.log('laser.js => stopListening');
         this.PHOTO_RESISTANCE.unexport();
-        this.ledsHandler.stop();
+        this.ledsHandler.switchOffAllLeds();
     }
 };
