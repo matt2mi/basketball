@@ -64,7 +64,7 @@ module.exports = class PiServer {
             config: {
                 id: 'wizz',
                 handler: (request, h) => {
-                    this.ledsHandler.startWizzing();
+                    this.ledsHandler.wizzing();
                     return h.response('party stopped !').code(200);
                 }
             }

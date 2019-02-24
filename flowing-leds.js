@@ -3,6 +3,10 @@ const Gpio = require('onoff').Gpio;
 
 module.exports = class FlowingLeds {
 
+    constructor() {
+        this.init();
+    }
+
     init() {
         console.log('flowing.js => init');
         this.LED1 = new Gpio(0, 'out');
@@ -20,6 +24,8 @@ module.exports = class FlowingLeds {
 
         // variable for flowing direction
         this.dir = "up";
+
+        this.intervals = [];
     }
 
     startFlowing() {
@@ -81,7 +87,6 @@ module.exports = class FlowingLeds {
 
     startWizzing() {
         console.log('flowing.js => startWizzing');
-        this.init();
 
         this.lightAllLeds();
         setTimeout(this.switchOffAllLeds, 200);
@@ -95,8 +100,25 @@ module.exports = class FlowingLeds {
         setTimeout(this.switchOffAllLeds, 1800);
     }
 
+    wizzing() {
+        console.log('flowing.js => wizzing');
+
+        // run the flowingLeds function every 100ms
+        const intervalOn = setInterval(() => this.lightAllLeds(), 100);
+        const intervalOff = setTimeout(() => setInterval(() => this.switchOffAllLeds(), 100), 50);
+        this.intervals.push(intervalOn, intervalOff);
+
+        setTimeout(() => {
+            this.switchOffAllLeds();
+            this.stop();
+        }, 3000);
+    }
+
     stop() {
         console.log('flowing.js => stop - unexport leds');
+
+        this.intervals.forEach(int => clearInterval(int));
+
         this.leds.forEach(currentValue => {
             currentValue.writeSync(0); //turn off LED
             currentValue.unexport(); //unexport GPIO
