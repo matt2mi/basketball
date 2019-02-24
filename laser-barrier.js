@@ -10,13 +10,13 @@ module.exports = class LaserBarrier {
     startListening() {
         this.init();
 
+        console.log('init');
+
         this.PHOTO_RESISTANCE.watch((err, value) => {
             if (err) {
                 throw err;
             }
-            if (value) {
-                console.log('coucou', value);
-            }
+            console.log('coucou', value);
         });
     }
 

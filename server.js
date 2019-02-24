@@ -2,7 +2,8 @@
 
 const Hapi = require('hapi');
 const Path = require('path');
-const Laser = require('laser-barrier');
+
+const Laser = require('./laser-barrier.js');
 const laser = new Laser();
 
 // Create a server with a host and port
