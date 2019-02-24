@@ -46,7 +46,17 @@ const init = async () => {
         method: 'GET',
         path: '/watch',
         handler: (request, h) => {
+            console.log('startListening');
             laser.startListening();
+            return h.response('Watching...').code(200);
+        }
+    });
+    server.route({
+        method: 'GET',
+        path: '/watch-loop',
+        handler: (request, h) => {
+            console.log('startListeningLoop');
+            laser.startListeningLoop();
             return h.response('Watching...').code(200);
         }
     });
@@ -54,6 +64,7 @@ const init = async () => {
         method: 'GET',
         path: '/stop-watch',
         handler: (request, h) => {
+            console.log('stopListening');
             laser.stopListening();
             return h.response('Stop watching...').code(200);
         }
