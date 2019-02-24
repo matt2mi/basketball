@@ -1,11 +1,16 @@
 'use strict';
 const Gpio = require('onoff').Gpio;
+const FlowingLeds = require('./flowing-leds.js');
 
 module.exports = class LaserBarrier {
+
+    constructor() {}
 
     init() {
         console.log('init');
         this.PHOTO_RESISTANCE = new Gpio(20, 'in');
+
+        this.ledsHandler = new FlowingLeds();
     }
 
     startListening() {
@@ -20,6 +25,7 @@ module.exports = class LaserBarrier {
             if (val && !ballPassing) {
                 ballPassing = !ballPassing;
                 console.log('swishing !!', val);
+                this.ledsHandler.startWizzing();
                 count += 2;
             }
             if (!val && ballPassing) {
@@ -31,5 +37,6 @@ module.exports = class LaserBarrier {
 
     stopListening() {
         this.PHOTO_RESISTANCE.unexport();
+        this.ledsHandler.stop();
     }
 };

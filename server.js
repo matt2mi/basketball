@@ -2,9 +2,7 @@
 
 const Hapi = require('hapi');
 const Path = require('path');
-
-const Laser = require('./laser-barrier.js');
-const laser = new Laser();
+const PiServer = require('./pi-server');
 
 // Create a server with a host and port
 const server = Hapi.server({
@@ -42,26 +40,8 @@ const init = async () => {
         }
     });
 
-    server.route({
-        method: 'GET',
-        path: '/watch',
-        handler: (request, h) => {
-            console.log('startListening');
-            laser.startListening();
-            return h.response('Watching...').code(200);
-        }
-    });
-    server.route({
-        method: 'GET',
-        path: '/stopwatch',
-        handler: (request, h) => {
-            console.log('stopListening');
-            laser.stopListening();
-            return h.response('Stop watching...').code(200);
-        }
-    });
-
-    require('./ws-server');
+    const piServer = new PiServer();
+    await piServer.start();
 
     await server.start();
     console.log(`Server running at: ${server.info.uri}`);

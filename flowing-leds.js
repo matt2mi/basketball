@@ -19,33 +19,82 @@ module.exports = class FlowingLeds {
 
         // variable for flowing direction
         this.dir = "up";
-
-        this.intervals = [];
     }
 
     startFlowing() {
         this.init();
-        // run the flowingLeds function every 100ms
-        const flowInterval = setInterval(() => this.flowingLeds(), 100);
-        this.intervals.push(flowInterval);
+        this.switchOffAllLeds();
+
+        this.LED1.writeSync(1);
+        setTimeout(() => {
+            this.LED2.writeSync(1);
+            this.LED1.writeSync(0);
+        }, 150);
+        setTimeout(() => {
+            this.LED3.writeSync(1);
+            this.LED2.writeSync(0);
+        }, 300);
+        setTimeout(() => {
+            this.LED4.writeSync(1);
+            this.LED3.writeSync(0);
+        }, 450);
+        setTimeout(() => {
+            this.LED5.writeSync(1);
+            this.LED4.writeSync(0);
+        }, 600);
+        setTimeout(() => {
+            this.LED6.writeSync(1);
+            this.LED5.writeSync(0);
+        }, 750);
+        setTimeout(() => {
+            this.LED6.writeSync(1);
+            this.LED5.writeSync(0);
+        }, 900);
+        setTimeout(() => {
+            this.LED5.writeSync(1);
+            this.LED6.writeSync(0);
+        }, 1050);
+        setTimeout(() => {
+            this.LED4.writeSync(1);
+            this.LED5.writeSync(0);
+        }, 1200);
+        setTimeout(() => {
+            this.LED3.writeSync(1);
+            this.LED4.writeSync(0);
+        }, 1350);
+        setTimeout(() => {
+            this.LED2.writeSync(1);
+            this.LED3.writeSync(0);
+        }, 1500);
+        setTimeout(() => {
+            this.LED2.writeSync(1);
+            this.LED1.writeSync(0);
+        }, 1650);
+        setTimeout(() => {
+            this.LED6.writeSync(1);
+            this.LED5.writeSync(0);
+        }, 1800);
+        setTimeout(() => this.stop(), 1950);
     }
 
     startWizzing() {
         this.init();
-        // run the flowingLeds function every 100ms
-        const intervalOn = setInterval(() => this.lightAllLeds(), 100);
-        setTimeout(() => {
-                const intervalOff = setInterval(() => this.switchOffAllLeds(), 100);
-                this.intervals.push(intervalOn, intervalOff);
-            },
-            50
-        );
+
+        this.lightAllLeds();
+        setTimeout(this.switchOffAllLeds, 200);
+        setTimeout(this.lightAllLeds, 400);
+        setTimeout(this.switchOffAllLeds, 600);
+        setTimeout(this.lightAllLeds, 800);
+        setTimeout(this.switchOffAllLeds, 1000);
+        setTimeout(this.lightAllLeds, 1200);
+        setTimeout(this.switchOffAllLeds, 1400);
+        setTimeout(this.lightAllLeds, 1600);
+        setTimeout(this.switchOffAllLeds, 1800);
+
+        this.stop();
     }
 
     stop() {
-        // function to run when user closes using ctrl+cc
-        this.intervals.forEach(interval => clearInterval(interval));
-
         this.leds.forEach(currentValue => {
             currentValue.writeSync(0); //turn off LED
             currentValue.unexport(); //unexport GPIO
@@ -81,161 +130,3 @@ module.exports = class FlowingLeds {
         this.LED6.writeSync(0);
     }
 };
-
-/*(async () => {
-    TRIG.writeSync(0);
-
-    LED1.writeSync(0);
-    LED2.writeSync(0);
-    LED3.writeSync(0);
-    LED4.writeSync(0);
-    LED5.writeSync(0);
-    LED6.writeSync(0);
-
-    let state = 1;
-
-    function blinkLedOnStart() {
-        if (state) {
-            state = 0;
-            LED1.writeSync(1);
-            LED2.writeSync(1);
-            LED3.writeSync(1);
-            LED4.writeSync(1);
-            LED5.writeSync(1);
-            LED6.writeSync(1);
-        } else {
-            state = 1;
-            LED1.writeSync(0);
-            LED2.writeSync(0);
-            LED3.writeSync(0);
-            LED4.writeSync(0);
-            LED5.writeSync(0);
-            LED6.writeSync(0);
-        }
-    }
-
-    const blinkInterval = setInterval(blinkLedOnStart, 150); //run the blinkLED function every 250ms
-    function endBlink() {
-        clearInterval(blinkInterval);
-        LED1.writeSync(0);
-        LED2.writeSync(0);
-        LED3.writeSync(0);
-        LED4.writeSync(0);
-        LED5.writeSync(0);
-        LED6.writeSync(0);
-
-        // LED1.unexport();
-        // LED2.unexport();
-        // LED3.unexport();
-        // LED4.unexport();
-        // LED5.unexport();
-        // LED6.unexport();
-    }
-
-    await setTimeout(endBlink, 2000); //stop blinking after 5 seconds
-
-    let score = 0;
-    let swishing = false;
-
-    async function lightOneByOne() {
-        LED1.writeSync(1);
-        await setTimeout(() => {
-        }, 150);
-        LED2.writeSync(1);
-        await setTimeout(() => {
-        }, 150);
-        LED3.writeSync(1);
-        await setTimeout(() => {
-        }, 150);
-        LED4.writeSync(1);
-        await setTimeout(() => {
-        }, 150);
-        LED5.writeSync(1);
-        await setTimeout(() => {
-        }, 150);
-        LED6.writeSync(1);
-        await setTimeout(() => {
-        }, 150);
-    }
-
-    async function lightOffOneByOne() {
-        LED1.writeSync(0);
-        await setTimeout(() => {
-        }, 150);
-        LED2.writeSync(0);
-        await setTimeout(() => {
-        }, 150);
-        LED3.writeSync(0);
-        await setTimeout(() => {
-        }, 150);
-        LED4.writeSync(0);
-        await setTimeout(() => {
-        }, 150);
-        LED5.writeSync(0);
-        await setTimeout(() => {
-        }, 150);
-        LED6.writeSync(0);
-        await setTimeout(() => {
-        }, 150);
-    }
-
-    const swishingFct = async () => {
-        console.log('swish !!');
-        swishing = true;
-        score = score + 2;
-        console.log(`score: ${score} points`);
-
-        await lightOneByOne();
-        await lightOffOneByOne();
-        await lightOneByOne();
-        await lightOffOneByOne();
-        await lightOneByOne();
-        await lightOffOneByOne();
-        await lightOneByOne();
-        await lightOffOneByOne();
-    };
-
-    const gameOn = async () => {
-        await setTimeout(() => {
-        }, 0.001);
-
-        TRIG.writeSync(1);
-        await setTimeout(() => {
-        }, 0.00001);
-        TRIG.writeSync(0);
-
-        let debutImpulsion, finImpulsion = 0;
-
-        // Emission de l'ultrason
-        while (ECHO.readSync() === 0) {
-            debutImpulsion = Date.now();
-        }
-
-        // Retour de l'Echo
-        while (ECHO.readSync() === 1) {
-            finImpulsion = Date.now();
-        }
-
-        const distance = Math.round((finImpulsion - debutImpulsion) * 340 * 100 / 2);  // Vitesse du son = 340 m/s
-
-        if (!swishing && distance <= 10) {
-            await swishingFct();
-        }
-        if (swishing && distance > 10) {
-            console.log('fin de swish');
-            swishing = false;
-        }
-
-        if(score <= 10) {
-            await gameOn();
-        }
-    };
-
-    console.log('startParty');
-    const startParty = Date.now();
-    await gameOn();
-    console.log(`Fin de partie en ${(Date.now() - startParty) / 1000} secondes`);
-
-    // GPIO.cleanup()
-})();*/
-
