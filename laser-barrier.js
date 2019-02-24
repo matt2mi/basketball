@@ -3,6 +3,8 @@ const Gpio = require('onoff').Gpio;
 
 module.exports = class LaserBarrier {
 
+    interval= null;
+
     init() {
         console.log('init');
         this.PHOTO_RESISTANCE = new Gpio(20, 'in');
@@ -11,29 +13,17 @@ module.exports = class LaserBarrier {
     startListening() {
         this.init();
 
-        console.log('init');
+        console.log('startListening');
+        let count = 0;
 
-        this.PHOTO_RESISTANCE.watch((err, value) => {
-            if (err) {
-                throw err;
-            }
-            console.log('coucou', value);
-        });
-    }
-
-    async startListeningLoop() {
-        this.init();
-        let counter = 0;
-
-        while (counter < 50) {
-            await setTimeout(() => {
-                console.log('value', this.PHOTO_RESISTANCE);
-                counter += 1;
-            }, 300);
-        }
+        this.interval = setInterval(() => {
+            count += 1;
+            console.log('value', this.PHOTO_RESISTANCE);
+        }, 500);
     }
 
     stopListening() {
+        clearInterval(this.interval);
         this.PHOTO_RESISTANCE.unexport();
     }
 };

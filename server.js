@@ -53,16 +53,7 @@ const init = async () => {
     });
     server.route({
         method: 'GET',
-        path: '/watch-loop',
-        handler: (request, h) => {
-            console.log('startListeningLoop');
-            laser.startListeningLoop();
-            return h.response('Watching loop...').code(200);
-        }
-    });
-    server.route({
-        method: 'GET',
-        path: '/stop-watch',
+        path: '/stopwatch',
         handler: (request, h) => {
             console.log('stopListening');
             laser.stopListening();
