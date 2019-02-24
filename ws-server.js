@@ -70,7 +70,8 @@ const start = async () => {
     await server.register({
         plugin: Nes,
         options: {
-            onConnection, onDisconnection
+            onConnection,
+            onDisconnection
         }
     });
 

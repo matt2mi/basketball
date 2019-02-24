@@ -2,6 +2,8 @@
 
 const Hapi = require('hapi');
 const Path = require('path');
+const Laser = require('laser-barrier');
+const laser = new Laser();
 
 // Create a server with a host and port
 const server = Hapi.server({
@@ -36,6 +38,23 @@ const init = async () => {
             directory: {
                 path: '.'
             }
+        }
+    });
+
+    server.route({
+        method: 'GET',
+        path: '/watch',
+        handler: (request, h) => {
+            laser.startListening();
+            return h.response('Watching...').code(200);
+        }
+    });
+    server.route({
+        method: 'GET',
+        path: '/stop-watch',
+        handler: (request, h) => {
+            laser.stopListening();
+            return h.response('Stop watching...').code(200);
         }
     });
 
