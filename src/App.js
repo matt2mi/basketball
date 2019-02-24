@@ -22,6 +22,9 @@ class App extends Component {
         this.restart = this.restart.bind(this);
         this.start = this.start.bind(this);
         this.startParty = this.startParty.bind(this);
+        this.startFlowing = this.startFlowing.bind(this);
+        this.startWizzing = this.startWizzing.bind(this);
+        this.stopLeds = this.stopLeds.bind(this);
 
         this.cli
             .connect()

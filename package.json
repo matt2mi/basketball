@@ -24,8 +24,7 @@
     "nodemon": "nodemon server.js",
     "start:cli": "react-scripts start",
     "build:cli": "react-scripts build",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "test:cli": "react-scripts test"
+    "test": "react-scripts test"
   },
   "eslintConfig": {
     "extends": "react-app"
