@@ -21,14 +21,14 @@ module.exports = class LaserBarrier {
         });
     }
 
-    startListeningLoop() {
+    async startListeningLoop() {
         this.init();
         let counter = 0;
 
         while (counter < 50) {
-            setTimeout(() => {
+            await setTimeout(() => {
                 console.log('value', this.PHOTO_RESISTANCE);
-                counter += 1
+                counter += 1;
             }, 300);
         }
     }

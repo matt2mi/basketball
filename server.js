@@ -57,7 +57,7 @@ const init = async () => {
         handler: (request, h) => {
             console.log('startListeningLoop');
             laser.startListeningLoop();
-            return h.response('Watching...').code(200);
+            return h.response('Watching loop...').code(200);
         }
     });
     server.route({
