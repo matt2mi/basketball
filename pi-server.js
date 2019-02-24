@@ -60,6 +60,17 @@ module.exports = class PiServer {
         });
         this.server.route({
             method: 'GET',
+            path: '/wizz',
+            config: {
+                id: 'stop',
+                handler: (request, h) => {
+                    this.ledsHandler.startWizzing();
+                    return h.response('party stopped !').code(200);
+                }
+            }
+        });
+        this.server.route({
+            method: 'GET',
             path: '/stop',
             config: {
                 id: 'stop',
