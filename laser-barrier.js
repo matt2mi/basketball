@@ -21,7 +21,8 @@ module.exports = class LaserBarrier {
             if (val && !ballPassing) {
                 ballPassing = !ballPassing;
                 console.log('laser.js => swishing !!', val);
-                setTimeout(() => this.ledsHandler.startWizzing(), 100);
+                this.ledsHandler.lightAllLeds();
+                setTimeout(() => this.ledsHandler.switchOffAllLeds(), 400);
                 count += 2;
             }
             if (!val && ballPassing) {
