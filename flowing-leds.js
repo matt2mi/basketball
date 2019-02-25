@@ -92,10 +92,10 @@ module.exports = class FlowingLeds {
         const intervalOff = setTimeout(() => setInterval(() => this.switchOffAllLeds(), 100), 50);
         this.intervals.push(intervalOn, intervalOff);
 
-        setTimeout(() => {
-            this.intervals.forEach(int => clearInterval(int));
-            this.switchOffAllLeds();
-        }, 3000);
+//        setTimeout(() => {
+  //          this.intervals.forEach(int => clearInterval(int));
+            // this.switchOffAllLeds();
+    //    }, 3000);
     }
 
     stop() {

@@ -13,6 +13,8 @@ module.exports = class LaserBarrier {
     startListening() {
         console.log('laser.js => startListening');
 
+        console.log('===== DEBUT DE PARTIE =====');
+
         let count = 0;
         let ballPassing = false;
 
@@ -31,7 +33,7 @@ module.exports = class LaserBarrier {
             }
         }
 
-        this.ledsHandler.startWizzing();
+        console.log('===== FIN DE PARTIE =====');
     }
 
     stopListening() {
