@@ -18,20 +18,39 @@ module.exports = class LaserBarrier {
         let count = 0;
         let ballPassing = false;
 
-        while (count < 10) {
+        const interval = setInterval(() => {
             let val = this.PHOTO_RESISTANCE.readSync();
             if (val && !ballPassing) {
                 ballPassing = !ballPassing;
                 console.log('laser.js => swishing !!', val);
-                this.ledsHandler.lightAllLeds();
-                this.ledsHandler.switchOffAllLeds();
+                // this.ledsHandler.lightAllLeds();
+                this.ledsHandler.startWizzing();
                 count += 2;
             }
             if (!val && ballPassing) {
                 ballPassing = !ballPassing;
                 console.log('laser.js => ball not passing anymore');
+                // this.ledsHandler.switchOffAllLeds();
             }
-        }
+            if(count > 10) {
+                clearInterval(interval);
+            }
+        }, 100);
+
+        // while (count < 10) {
+        //     let val = this.PHOTO_RESISTANCE.readSync();
+        //     if (val && !ballPassing) {
+        //         ballPassing = !ballPassing;
+        //         console.log('laser.js => swishing !!', val);
+        //         this.ledsHandler.lightAllLeds();
+        //         count += 2;
+        //     }
+        //     if (!val && ballPassing) {
+        //         ballPassing = !ballPassing;
+        //         console.log('laser.js => ball not passing anymore');
+        //         this.ledsHandler.switchOffAllLeds();
+        //     }
+        // }
 
         console.log('===== FIN DE PARTIE =====');
     }
