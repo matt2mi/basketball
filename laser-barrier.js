@@ -10,7 +10,7 @@ module.exports = class LaserBarrier {
         this.ledsHandler = ledsHandler;
     }
 
-    async startListening() {
+    startListening() {
         console.log('laser.js => startListening');
 
         let count = 0;
@@ -22,14 +22,16 @@ module.exports = class LaserBarrier {
                 ballPassing = !ballPassing;
                 console.log('laser.js => swishing !!', val);
                 this.ledsHandler.lightAllLeds();
+                this.ledsHandler.switchOffAllLeds();
                 count += 2;
-                await setTimeout(() => this.ledsHandler.switchOffAllLeds(), 400);
             }
             if (!val && ballPassing) {
                 ballPassing = !ballPassing;
                 console.log('laser.js => ball not passing anymore');
             }
         }
+
+        this.ledsHandler.startWizzing();
     }
 
     stopListening() {
