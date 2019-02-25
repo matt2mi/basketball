@@ -30,7 +30,6 @@ module.exports = class FlowingLeds {
 
     startFlowing() {
         console.log('flowing.js => startFlowing');
-        this.init();
         this.switchOffAllLeds();
 
         this.LED1.writeSync(1);
