@@ -86,21 +86,6 @@ module.exports = class FlowingLeds {
     }
 
     startWizzing() {
-        console.log('flowing.js => startWizzing');
-
-        this.lightAllLeds();
-        setTimeout(this.switchOffAllLeds, 200);
-        setTimeout(this.lightAllLeds, 400);
-        setTimeout(this.switchOffAllLeds, 600);
-        setTimeout(this.lightAllLeds, 800);
-        setTimeout(this.switchOffAllLeds, 1000);
-        setTimeout(this.lightAllLeds, 1200);
-        setTimeout(this.switchOffAllLeds, 1400);
-        setTimeout(this.lightAllLeds, 1600);
-        setTimeout(this.switchOffAllLeds, 1800);
-    }
-
-    wizzing() {
         console.log('flowing.js => wizzing');
 
         // run the flowingLeds function every 100ms
@@ -108,15 +93,11 @@ module.exports = class FlowingLeds {
         const intervalOff = setTimeout(() => setInterval(() => this.switchOffAllLeds(), 100), 50);
         this.intervals.push(intervalOn, intervalOff);
 
-        setTimeout(() => {
-            this.switchOffAllLeds();
-            this.stop();
-        }, 3000);
+        setTimeout(() => this.switchOffAllLeds(), 3000);
     }
 
     stop() {
         console.log('flowing.js => stop - unexport leds');
-
         this.intervals.forEach(int => clearInterval(int));
 
         this.leds.forEach(currentValue => {

@@ -7,7 +7,7 @@ module.exports = class PiServer {
 
     constructor() {
         this.ledsHandler = new FlowingLeds();
-        this.laser = new LaserBarrier();
+        this.laser = new LaserBarrier(this.ledsHandler);
 
         this.port = 3005;
         this.server = new Hapi.Server({port: this.port});
@@ -34,7 +34,7 @@ module.exports = class PiServer {
 
     killProcesses() {
         console.log('killProcesses');
-        this.laser.stopListening();
+        this.laser.kill();
         this.ledsHandler.stop();
     }
 
@@ -55,17 +55,6 @@ module.exports = class PiServer {
                 handler: (request, h) => {
                     this.laser.startListening();
                     return h.response('Party started !').code(200);
-                }
-            }
-        });
-        this.server.route({
-            method: 'GET',
-            path: '/wizz',
-            config: {
-                id: 'stop',
-                handler: (request, h) => {
-                    this.ledsHandler.wizzing();
-                    return h.response('party stopped !').code(200);
                 }
             }
         });
