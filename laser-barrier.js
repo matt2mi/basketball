@@ -29,10 +29,11 @@ module.exports = class LaserBarrier {
                 console.log('score:', count);
 
                 if (count > 10) {
+                    server.publish('gameOver');
+                    clearInterval(interval);
+                    console.log('===== FIN DE PARTIE =====');
                     setTimeout(() => {
                         this.ledsHandler.stop();
-                        clearInterval(interval);
-                        console.log('===== FIN DE PARTIE =====');
                     }, 2000);
                 }
             }

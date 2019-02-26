@@ -3,6 +3,14 @@ import logo from './logo.svg';
 import './App.css';
 import {Client} from "nes";
 
+
+// TODO : tout gérer back => points + fin de partie / décompte front juste pour l'affichage
+// TODO : aligner les décomptes
+// TODO : erreur pi-server.js:22
+
+
+
+
 class App extends Component {
 
     countdownTimer;
@@ -14,12 +22,14 @@ class App extends Component {
             connected: true,
             countdown: 10,
             score: 0,
-            partyStarted: false
+            partyStarted: false,
+            gameOver: false
         };
 
         this.handleScore = this.handleScore.bind(this);
         this.start = this.start.bind(this);
         this.startParty = this.startParty.bind(this);
+        this.gameOver = this.gameOver.bind(this);
 
         this.cli
             .connect()
@@ -36,6 +46,13 @@ class App extends Component {
 
     start() {
         this.cli
+            .subscribe('/gameOver', this.handleScore)
+            .then((data) => {
+                console.log(data);
+                this.gameOver();
+            });
+
+        this.cli
             .subscribe('/swish', this.handleScore)
             .then(() => this.cli.request('start'))
             .then((data) => {
@@ -48,11 +65,15 @@ class App extends Component {
         this.setState({partyStarted: true});
         this.countdownTimer = setInterval(() => {
             this.setState({countdown: this.state.countdown - 1});
-
-            if (this.state.countdown <= 0) {
-                clearInterval(this.countdownTimer);
-            }
         }, 1000);
+    }
+
+    gameOver() {
+        console.log('gameOver');
+        this.cli.unsubscribe('/swish');
+        this.cli.unsubscribe('/gameOver');
+        this.setState({gameOver: true});
+        clearInterval(this.countdownTimer);
     }
 
     render() {
@@ -83,7 +104,7 @@ class App extends Component {
                                 </div>
                             </div>
                             {
-                                this.state.countdown <= 0 &&
+                                this.state.gameOver &&
                                 <div className="row">
                                     <div className="col-12 text-center">Bravo, t'as fait {this.state.score} points !!
                                     </div>

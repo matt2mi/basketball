@@ -58,7 +58,14 @@ module.exports = class PiServer {
             }
         });
 
-        this.server.subscription('/swish');
+        this.server.subscription(
+            '/swish',
+            {onUnsubscribe: console.log('unsub swish')}
+        );
+        this.server.subscription(
+            '/gameOver',
+            {onUnsubscribe: console.log('unsub game over')}
+        );
         await this.server.start();
 
         console.log('ws server started at', this.port);
