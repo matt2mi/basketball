@@ -25,15 +25,19 @@ module.exports = class LaserBarrier {
                 console.log('laser.js => swishing !!', val);
                 this.ledsHandler.startWizzing();
                 count += 2;
+                console.log('score:', count);
+
+                if (count > 10) {
+                    setTimeout(() => {
+                        this.ledsHandler.stop();
+                        clearInterval(interval);
+                        console.log('===== FIN DE PARTIE =====');
+                    }, 2000);
+                }
             }
             if (!val && ballPassing) {
                 ballPassing = !ballPassing;
                 console.log('laser.js => ball not passing anymore');
-            }
-            if(count > 10) {
-                this.ledsHandler.stop();
-                clearInterval(interval);
-                console.log('===== FIN DE PARTIE =====');
             }
         }, 100);
     }
