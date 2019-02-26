@@ -4,14 +4,14 @@ const Gpio = require('onoff').Gpio;
 class LaserBarrier {
 
     constructor(ledsHandler) {
-        console.log('laser.js => init');
+        console.log('laserBarrier.js => init');
         this.PHOTO_RESISTANCE = new Gpio(20, 'in');
 
         this.ledsHandler = ledsHandler;
     }
 
     startListening(server) {
-        console.log('laser.js => startListening');
+        console.log('laserBarrier.js => startListening');
 
         console.log('===== DEBUT DE PARTIE =====');
 
@@ -22,14 +22,14 @@ class LaserBarrier {
             let val = this.PHOTO_RESISTANCE.readSync();
             if (val && !ballPassing) {
                 ballPassing = !ballPassing;
-                console.log('laser.js => swishing !!', val);
+                console.log('laserBarrier.js => swishing !!', val);
                 this.ledsHandler.startWizzing();
                 count += 2;
                 server.publish('/swish', { score: count });
                 console.log('score:', count);
 
                 if (count > 10) {
-                    server.publish('gameOver');
+                    server.publish('/gameover');
                     clearInterval(interval);
                     console.log('===== FIN DE PARTIE =====');
                     setTimeout(() => {
@@ -39,18 +39,18 @@ class LaserBarrier {
             }
             if (!val && ballPassing) {
                 ballPassing = !ballPassing;
-                console.log('laser.js => ball passed');
+                console.log('laserBarrier.js => ball passed');
             }
         }, 50);
     }
 
     stopListening() {
-        console.log('laser.js => stopListening');
+        console.log('laserBarrier.js => stopListening');
         // TODO : interrupt start fct
     }
 
     kill() {
-        console.log('laser.js => kill');
+        console.log('laserBarrier.js => kill');
         this.PHOTO_RESISTANCE.unexport();
     }
 }

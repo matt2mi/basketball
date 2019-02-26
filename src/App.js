@@ -46,7 +46,7 @@ class App extends Component {
 
     start() {
         this.cli
-            .subscribe('/gameOver', this.gameOver)
+            .subscribe('/gameover', this.gameOver)
             .then((data) => {
                 console.log(data);
             });
@@ -70,7 +70,7 @@ class App extends Component {
     gameOver() {
         console.log('gameOver');
         this.cli.unsubscribe('/swish');
-        this.cli.unsubscribe('/gameOver');
+        this.cli.unsubscribe('/gameover');
         this.setState({gameOver: true});
         clearInterval(this.countdownTimer);
     }

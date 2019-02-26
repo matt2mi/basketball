@@ -1,13 +1,13 @@
 const Hapi = require('hapi');
 const Nes = require('nes');
-const FlowingLeds = require('./flowing-leds.js');
+const LedsHandler = require('./flowing-leds.js');
 const LaserBarrier = require('./laser-barrier');
 
 class PiServer {
 
     constructor() {
-        this.ledsHandler = new FlowingLeds();
-        this.laser = new LaserBarrier(this.ledsHandler);
+        this.ledsHandler = new LedsHandler();
+        this.laserBarrier = new LaserBarrier(this.ledsHandler);
 
         this.port = 3005;
         this.server = new Hapi.Server({port: this.port});
@@ -19,18 +19,18 @@ class PiServer {
     onConnection() {
         // TODO : marche pas
         console.log('onConnection');
-        this.ledsHandler.startWizzing();
+        // this.ledsHandler.startWizzing();
     }
 
     onDisconnection() {
         // TODO : marche pas
         console.log('onDisconnection');
-        this.ledsHandler.switchOffAllLeds();
+        // this.ledsHandler.switchOffAllLeds();
     }
 
     killProcesses() {
         console.log('killProcesses');
-        this.laser.kill();
+        this.laserBarrier.kill();
         this.ledsHandler.stop();
     }
 
@@ -49,10 +49,7 @@ class PiServer {
             config: {
                 id: 'start',
                 handler: (request, h) => {
-                    this.laser.startListening(this.server);
-                    // setTimeout(() => this.server.publish('/swish', { score: 2 }), 1000);
-                    // setTimeout(() => this.server.publish('/swish', { score: 4 }), 3000);
-
+                    this.laserBarrier.startListening(this.server);
                     return h.response('Party started !').code(200);
                 }
             }
@@ -63,7 +60,7 @@ class PiServer {
             {onUnsubscribe: console.log('unsub swish')}
         );
         this.server.subscription(
-            '/gameOver',
+            '/gameover',
             {onUnsubscribe: console.log('unsub game over')}
         );
         await this.server.start();
