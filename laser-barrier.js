@@ -37,9 +37,9 @@ module.exports = class LaserBarrier {
             }
             if (!val && ballPassing) {
                 ballPassing = !ballPassing;
-                console.log('laser.js => ball not passing anymore');
+                console.log('laser.js => ball passed');
             }
-        }, 100);
+        }, 50);
     }
 
     stopListening() {
