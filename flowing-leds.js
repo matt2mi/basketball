@@ -30,7 +30,7 @@ module.exports = class FlowingLeds {
 
     startFlowing() {
         console.log('flowing.js => startFlowing');
-        this.switchOffAllLeds();
+        this.switchOffAllLeds('startFlowing - debut');
 
         this.LED1.writeSync(1);
         setTimeout(() => {
@@ -81,7 +81,7 @@ module.exports = class FlowingLeds {
             this.LED6.writeSync(1);
             this.LED5.writeSync(0);
         }, 1800);
-        setTimeout(() => this.switchOffAllLeds(), 1950);
+        setTimeout(() => this.switchOffAllLeds('startFlowing - fin'), 1950);
     }
 
     startWizzing() {
@@ -89,12 +89,13 @@ module.exports = class FlowingLeds {
 
         // run the flowingLeds function every 100ms
         const intervalOn = setInterval(() => this.lightAllLeds(), 100);
-        const intervalOff = setTimeout(() => setInterval(() => this.switchOffAllLeds(), 100), 50);
+        const intervalOff = setTimeout(() => setInterval(() => this.switchOffAllLeds('wizzing'), 100), 50);
         this.intervals.push(intervalOn, intervalOff);
 
        setTimeout(() => {
+           console.log('stoooooop 1500');
            this.intervals.forEach(int => clearInterval(int));
-            this.switchOffAllLeds();
+            this.switchOffAllLeds('fin wizzing');
        }, 1500);
     }
 
@@ -130,8 +131,8 @@ module.exports = class FlowingLeds {
         this.LED6.writeSync(1);
     }
 
-    switchOffAllLeds() {
-        console.log('flowing.js => switchOffAllLeds');
+    switchOffAllLeds(i) {
+        console.log('flowing.js => switchOffAllLeds', i);
         this.LED1.writeSync(0);
         this.LED2.writeSync(0);
         this.LED3.writeSync(0);
