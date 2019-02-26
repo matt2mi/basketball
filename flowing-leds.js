@@ -30,7 +30,7 @@ module.exports = class FlowingLeds {
 
     startFlowing() {
         console.log('flowing.js => startFlowing');
-        this.switchOffAllLeds('startFlowing - debut');
+        this.switchOffAllLeds();
 
         this.LED1.writeSync(1);
         setTimeout(() => {
@@ -81,7 +81,7 @@ module.exports = class FlowingLeds {
             this.LED6.writeSync(1);
             this.LED5.writeSync(0);
         }, 1800);
-        setTimeout(() => this.switchOffAllLeds('startFlowing - fin'), 1950);
+        setTimeout(() => this.switchOffAllLeds(), 1950);
     }
 
     startWizzing() {
@@ -91,13 +91,13 @@ module.exports = class FlowingLeds {
         const intervalOn = setInterval(() => this.lightAllLeds(), 100);
         let intervalOff = null;
         setTimeout(() => {
-            intervalOff = setInterval(() => this.switchOffAllLeds('wizzing'), 100);
+            intervalOff = setInterval(() => this.switchOffAllLeds(), 100);
             this.intervals.push(intervalOn, intervalOff);
 
             setTimeout(() => {
                 console.log('stoooooop 1500');
                 this.intervals.forEach(int => clearInterval(int));
-                this.switchOffAllLeds('fin wizzing');
+                this.switchOffAllLeds();
             }, 1500);
         }, 50);
     }
@@ -107,7 +107,6 @@ module.exports = class FlowingLeds {
         this.intervals.forEach(int => clearInterval(int));
 
         this.leds.forEach(currentValue => {
-            currentValue.writeSync(0); //turn off LED
             currentValue.unexport(); //unexport GPIO
         });
     }
@@ -134,8 +133,8 @@ module.exports = class FlowingLeds {
         this.LED6.writeSync(1);
     }
 
-    switchOffAllLeds(i) {
-        console.log('flowing.js => switchOffAllLeds', i);
+    switchOffAllLeds() {
+        console.log('flowing.js => switchOffAllLeds');
         this.LED1.writeSync(0);
         this.LED2.writeSync(0);
         this.LED3.writeSync(0);

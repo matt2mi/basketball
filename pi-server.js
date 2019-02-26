@@ -19,17 +19,13 @@ module.exports = class PiServer {
     onConnection() {
         // TODO : marche pas
         console.log('onConnection');
-        this.ledsHandler.flowingLeds();
-        setTimeout(() => {
-            console.log('stop onConnection');
-            this.ledsHandler.switchOffAllLeds('onConnection');
-        }, 2000);
+        this.ledsHandler.startWizzing();
     }
 
     onDisconnection() {
         // TODO : marche pas
         console.log('onDisconnection');
-        this.ledsHandler.switchOffAllLeds('onDisconnection');
+        this.ledsHandler.switchOffAllLeds();
     }
 
     killProcesses() {

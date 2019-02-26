@@ -55,7 +55,7 @@ class App extends Component {
             this.setState({score: this.state.score + update.newScore});
         }
     }
-
+/*
     restart() {
         this.setState({
             countdown: 10,
@@ -63,7 +63,7 @@ class App extends Component {
             partyStarted: false
         });
         this.start();
-    }
+    }*/
 
     start() {
         this.cli
@@ -86,7 +86,7 @@ class App extends Component {
         }, 1000);
     }
 
-    startFlowing() {
+/*  startFlowing() {
         this.cli.request('/flow')
             .then((res) => console.log(res))
             .catch((err) => console.error(err));
@@ -102,7 +102,7 @@ class App extends Component {
         this.cli.request('/stop-leds')
             .then((res) => console.log(res))
             .catch((err) => console.error(err));
-    }
+    }*/
 
     render() {
         return (
@@ -118,21 +118,21 @@ class App extends Component {
                         <div>
                             <div className="row">
                                 <div className="col-4">
-                                    {
-                                        !this.state.partyStarted ?
+                                    {/*{*/}
+                                        // !this.state.partyStarted ?
                                             <button type="btn" className="btn btn-success" onClick={this.start}>
                                                 Start !
-                                            </button> :
-                                            this.state.countdown > 0 ?
-                                                <button type="btn" className="btn btn-danger"
-                                                        onClick={this.cancelParty}>
-                                                    Cancel
-                                                </button> :
-                                                <button type="btn" className="btn btn-primary" onClick={this.restart}>
-                                                    Restart !
-                                                </button>
+                                            </button>
+                                            // : this.state.countdown > 0 ?
+                                            //     <button type="btn" className="btn btn-danger"
+                                            //             onClick={this.cancelParty}>
+                                            //         Cancel
+                                            //     </button> :
+                                            //     <button type="btn" className="btn btn-primary" onClick={this.restart}>
+                                            //         Restart !
+                                            //     </button>
 
-                                    }
+                                    // }
                                 </div>
                                 <div className="col-4">
                                     Score : {this.state.score}
@@ -148,20 +148,6 @@ class App extends Component {
                                     </div>
                                 </div>
                             }
-
-                            <div className="row">
-                                <button type="btn" className="btn btn-success" onClick={this.startFlowing}>
-                                    start flowing
-                                </button>
-
-                                <button type="btn" className="btn btn-success" onClick={this.startWizzing}>
-                                    start wizzing
-                                </button>
-
-                                <button type="btn" className="btn btn-danger" onClick={this.stopLeds}>
-                                    stop leds
-                                </button>
-                            </div>
                         </div>
                 }
             </div>
