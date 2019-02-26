@@ -49,7 +49,8 @@ class PiServer {
             config: {
                 id: 'start',
                 handler: (request, h) => {
-                    this.laserBarrier.startListening(this.server);
+                    // this.laserBarrier.startListening(this.server);
+                    this.server.publish('/gameover');
                     return h.response('Party started !').code(200);
                 }
             }
@@ -64,7 +65,6 @@ class PiServer {
             {onUnsubscribe: console.log('unsub game over')}
         );
         await this.server.start();
-        this.server.publish('/gameover');
         console.log('ws server started at', this.port);
     };
 }

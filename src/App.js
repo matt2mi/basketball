@@ -45,14 +45,16 @@ class App extends Component {
     }
 
     start() {
-        this.cli.subscribe('/gameover', this.gameOver);
-
         this.cli
-            .subscribe('/swish', this.handleScore)
-            .then(() => this.cli.request('start'))
-            .then((data) => {
-                console.log(data);
-                this.startParty();
+            .subscribe('/gameover', this.gameOver)
+            .then(() => {
+                this.cli
+                    .subscribe('/swish', this.handleScore)
+                    .then(() => this.cli.request('start'))
+                    .then((data) => {
+                        console.log(data);
+                        this.startParty();
+                    });
             });
     }
 
