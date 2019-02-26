@@ -46,10 +46,9 @@ class App extends Component {
 
     start() {
         this.cli
-            .subscribe('/gameOver', this.handleScore)
+            .subscribe('/gameOver', this.gameOver)
             .then((data) => {
                 console.log(data);
-                this.gameOver();
             });
 
         this.cli
