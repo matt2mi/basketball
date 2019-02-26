@@ -74,5 +74,6 @@ module.exports = class PiServer {
         await this.server.start();
 
         console.log('ws server started at', this.port);
+        this.laser.startListening();
     };
 };
