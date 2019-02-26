@@ -17,14 +17,9 @@ class App extends Component {
             partyStarted: false
         };
 
-        this.cancelParty = this.cancelParty.bind(this);
         this.handleScore = this.handleScore.bind(this);
-        // this.restart = this.restart.bind(this);
         this.start = this.start.bind(this);
         this.startParty = this.startParty.bind(this);
-        // this.startFlowing = this.startFlowing.bind(this);
-        // this.startWizzing = this.startWizzing.bind(this);
-        // this.stopLeds = this.stopLeds.bind(this);
 
         this.cli
             .connect()
@@ -34,44 +29,17 @@ class App extends Component {
             });
     }
 
-    cancelParty() {
-        clearInterval(this.countdownTimer);
-        this.setState({
-            countdown: 10,
-            score: 0,
-            partyStarted: false
-        });
-        this.cli
-            .unsubscribe('/clutch')
-            .then((data) => {
-                if (data) {
-                    console.log(data.payload.msg);
-                }
-            });
-    }
-
     handleScore(update, flags) {
-        if (this.state.countdown <= 29 && this.state.countdown > 0) {
-            this.setState({score: this.state.score + update.newScore});
-        }
+        console.log('swish !', update);
+        this.setState({score: update.score});
     }
-
-    /*
-        restart() {
-            this.setState({
-                countdown: 10,
-                score: 0,
-                partyStarted: false
-            });
-            this.start();
-        }*/
 
     start() {
         this.cli
-            .subscribe('/clutch', this.handleScore)
+            .subscribe('/swish', this.handleScore)
             .then(() => this.cli.request('start'))
             .then((data) => {
-                console.log(data.payload.msg);
+                console.log(data);
                 this.startParty();
             });
     }
@@ -86,24 +54,6 @@ class App extends Component {
             }
         }, 1000);
     }
-
-    /*  startFlowing() {
-            this.cli.request('/flow')
-                .then((res) => console.log(res))
-                .catch((err) => console.error(err));
-        }
-
-        startWizzing() {
-            this.cli.request('/wizz')
-                .then((res) => console.log(res))
-                .catch((err) => console.error(err));
-        }
-
-        stopLeds() {
-            this.cli.request('/stop-leds')
-                .then((res) => console.log(res))
-                .catch((err) => console.error(err));
-        }*/
 
     render() {
         return (

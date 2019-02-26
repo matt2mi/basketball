@@ -10,7 +10,7 @@ module.exports = class LaserBarrier {
         this.ledsHandler = ledsHandler;
     }
 
-    startListening() {
+    startListening(server) {
         console.log('laser.js => startListening');
 
         console.log('===== DEBUT DE PARTIE =====');
@@ -25,6 +25,7 @@ module.exports = class LaserBarrier {
                 console.log('laser.js => swishing !!', val);
                 this.ledsHandler.startWizzing();
                 count += 2;
+                server.publish('/swish', { score: count });
                 console.log('score:', count);
 
                 if (count > 10) {

@@ -49,24 +49,16 @@ module.exports = class PiServer {
             config: {
                 id: 'start',
                 handler: (request, h) => {
-                    this.laser.startListening();
+                    this.laser.startListening(this.server);
+                    // setTimeout(() => this.server.publish('/swish', { score: 2 }), 1000);
+                    // setTimeout(() => this.server.publish('/swish', { score: 4 }), 3000);
+
                     return h.response('Party started !').code(200);
                 }
             }
         });
-        this.server.route({
-            method: 'GET',
-            path: '/stop',
-            config: {
-                id: 'stop',
-                handler: (request, h) => {
-                    this.laser.stopListening();
-                    return h.response('party stopped !').code(200);
-                }
-            }
-        });
 
-        this.server.subscription('/clutch');
+        this.server.subscription('/swish');
         await this.server.start();
 
         console.log('ws server started at', this.port);

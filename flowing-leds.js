@@ -20,15 +20,15 @@ module.exports = class FlowingLeds {
         this.leds = [this.LED1, this.LED2, this.LED3, this.LED4, this.LED5, this.LED6];
 
         // a counter
-        this.indexCount = 0;
+        // this.indexCount = 0;
 
         // variable for flowing direction
-        this.dir = "up";
+        // this.dir = "up";
 
         this.intervals = [];
     }
 
-    startFlowing() {
+    /*startFlowing() {
         console.log('flowing.js => startFlowing');
         this.switchOffAllLeds();
 
@@ -82,7 +82,18 @@ module.exports = class FlowingLeds {
             this.LED5.writeSync(0);
         }, 1800);
         setTimeout(() => this.switchOffAllLeds(), 1950);
-    }
+    }*/
+    // function for flowing Leds
+    /*flowingLeds() {
+        console.log('flowing.js => flowingLeds');
+        // turn off all leds
+        this.leds.forEach(currentValue => currentValue.writeSync(0));
+        if (this.indexCount === 0) this.dir = "up"; //set flow direction to "up" if the count reaches zero
+        if (this.indexCount >= this.leds.length) this.dir = "down"; //set flow direction to "down" if the count reaches 7
+        if (this.dir === "down") this.indexCount--; //count downwards if direction is down
+        this.leds[this.indexCount].writeSync(1); //turn on LED that where array index matches count
+        if (this.dir === "up") this.indexCount++ //count upwards if direction is up
+    }*/
 
     startWizzing() {
         console.log('flowing.js => wizzing');
@@ -109,18 +120,6 @@ module.exports = class FlowingLeds {
         this.leds.forEach(currentValue => {
             currentValue.unexport(); //unexport GPIO
         });
-    }
-
-    // function for flowing Leds
-    flowingLeds() {
-        console.log('flowing.js => flowingLeds');
-        // turn off all leds
-        this.leds.forEach(currentValue => currentValue.writeSync(0));
-        if (this.indexCount === 0) this.dir = "up"; //set flow direction to "up" if the count reaches zero
-        if (this.indexCount >= this.leds.length) this.dir = "down"; //set flow direction to "down" if the count reaches 7
-        if (this.dir === "down") this.indexCount--; //count downwards if direction is down
-        this.leds[this.indexCount].writeSync(1); //turn on LED that where array index matches count
-        if (this.dir === "up") this.indexCount++ //count upwards if direction is up
     }
 
     lightAllLeds() {
