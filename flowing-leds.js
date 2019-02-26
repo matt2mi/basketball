@@ -90,14 +90,16 @@ module.exports = class FlowingLeds {
         // run the flowingLeds function every 100ms
         const intervalOn = setInterval(() => this.lightAllLeds(), 100);
         let intervalOff = null;
-        setTimeout(() => intervalOff = setInterval(() => this.switchOffAllLeds('wizzing'), 100), 50);
-        this.intervals.push(intervalOn, intervalOff);
+        setTimeout(() => {
+            intervalOff = setInterval(() => this.switchOffAllLeds('wizzing'), 100);
+            this.intervals.push(intervalOn, intervalOff);
 
-       setTimeout(() => {
-           console.log('stoooooop 1500');
-           this.intervals.forEach(int => clearInterval(int));
-            this.switchOffAllLeds('fin wizzing');
-       }, 1500);
+            setTimeout(() => {
+                console.log('stoooooop 1500');
+                this.intervals.forEach(int => clearInterval(int));
+                this.switchOffAllLeds('fin wizzing');
+            }, 1500);
+        }, 50);
     }
 
     stop() {
