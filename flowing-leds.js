@@ -89,7 +89,8 @@ module.exports = class FlowingLeds {
 
         // run the flowingLeds function every 100ms
         const intervalOn = setInterval(() => this.lightAllLeds(), 100);
-        const intervalOff = setTimeout(() => setInterval(() => this.switchOffAllLeds('wizzing'), 100), 50);
+        let intervalOff = null;
+        setTimeout(() => intervalOff = setInterval(() => this.switchOffAllLeds('wizzing'), 100), 50);
         this.intervals.push(intervalOn, intervalOff);
 
        setTimeout(() => {
