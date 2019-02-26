@@ -45,11 +45,7 @@ class App extends Component {
     }
 
     start() {
-        this.cli
-            .subscribe('/gameover', this.gameOver)
-            .then((data) => {
-                console.log(data);
-            });
+        this.cli.subscribe('/gameover', this.gameOver);
 
         this.cli
             .subscribe('/swish', this.handleScore)
@@ -67,8 +63,8 @@ class App extends Component {
         }, 1000);
     }
 
-    gameOver() {
-        console.log('gameOver');
+    gameOver(update, flags) {
+        console.log('gameOver', update);
         this.cli.unsubscribe('/swish');
         this.cli.unsubscribe('/gameover');
         this.setState({gameOver: true});

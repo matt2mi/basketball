@@ -64,7 +64,7 @@ class PiServer {
             {onUnsubscribe: console.log('unsub game over')}
         );
         await this.server.start();
-
+        this.server.publish('/gameover');
         console.log('ws server started at', this.port);
     };
 }

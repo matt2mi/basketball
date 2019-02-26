@@ -32,9 +32,6 @@ class LaserBarrier {
                     server.publish('/gameover');
                     clearInterval(interval);
                     console.log('===== FIN DE PARTIE =====');
-                    setTimeout(() => {
-                        this.ledsHandler.stop();
-                    }, 2000);
                 }
             }
             if (!val && ballPassing) {

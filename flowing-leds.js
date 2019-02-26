@@ -106,7 +106,6 @@ class LedsHandler {
             this.intervals.push(intervalOn, intervalOff);
 
             setTimeout(() => {
-                console.log('stoooooop 1500');
                 this.intervals.forEach(int => clearInterval(int));
                 this.switchOffAllLeds();
             }, 1500);
@@ -123,7 +122,6 @@ class LedsHandler {
     }
 
     lightAllLeds() {
-        console.log('flowing.js => lightAllLeds');
         this.LED1.writeSync(1);
         this.LED2.writeSync(1);
         this.LED3.writeSync(1);
@@ -133,7 +131,6 @@ class LedsHandler {
     }
 
     switchOffAllLeds() {
-        console.log('flowing.js => switchOffAllLeds');
         this.LED1.writeSync(0);
         this.LED2.writeSync(0);
         this.LED3.writeSync(0);
