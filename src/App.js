@@ -44,7 +44,7 @@ class App extends Component {
         this.cli
             .unsubscribe('/clutch')
             .then((data) => {
-                if(data) {
+                if (data) {
                     console.log(data.payload.msg);
                 }
             });
@@ -55,15 +55,16 @@ class App extends Component {
             this.setState({score: this.state.score + update.newScore});
         }
     }
-/*
-    restart() {
-        this.setState({
-            countdown: 10,
-            score: 0,
-            partyStarted: false
-        });
-        this.start();
-    }*/
+
+    /*
+        restart() {
+            this.setState({
+                countdown: 10,
+                score: 0,
+                partyStarted: false
+            });
+            this.start();
+        }*/
 
     start() {
         this.cli
@@ -86,23 +87,23 @@ class App extends Component {
         }, 1000);
     }
 
-/*  startFlowing() {
-        this.cli.request('/flow')
-            .then((res) => console.log(res))
-            .catch((err) => console.error(err));
-    }
+    /*  startFlowing() {
+            this.cli.request('/flow')
+                .then((res) => console.log(res))
+                .catch((err) => console.error(err));
+        }
 
-    startWizzing() {
-        this.cli.request('/wizz')
-            .then((res) => console.log(res))
-            .catch((err) => console.error(err));
-    }
+        startWizzing() {
+            this.cli.request('/wizz')
+                .then((res) => console.log(res))
+                .catch((err) => console.error(err));
+        }
 
-    stopLeds() {
-        this.cli.request('/stop-leds')
-            .then((res) => console.log(res))
-            .catch((err) => console.error(err));
-    }*/
+        stopLeds() {
+            this.cli.request('/stop-leds')
+                .then((res) => console.log(res))
+                .catch((err) => console.error(err));
+        }*/
 
     render() {
         return (
@@ -118,25 +119,15 @@ class App extends Component {
                         <div>
                             <div className="row">
                                 <div className="col-4">
-                                    {/*{*/}
-                                        // !this.state.partyStarted ?
-                                            <button type="btn" className="btn btn-success" onClick={this.start}>
-                                                Start !
-                                            </button>
-                                            // : this.state.countdown > 0 ?
-                                            //     <button type="btn" className="btn btn-danger"
-                                            //             onClick={this.cancelParty}>
-                                            //         Cancel
-                                            //     </button> :
-                                            //     <button type="btn" className="btn btn-primary" onClick={this.restart}>
-                                            //         Restart !
-                                            //     </button>
-
-                                    // }
+                                    <button type="btn" className="btn btn-success" onClick={this.start}>
+                                        Start !
+                                    </button>
                                 </div>
+
                                 <div className="col-4">
                                     Score : {this.state.score}
                                 </div>
+
                                 <div className="col-4">
                                     Temps restant : {this.state.partyStarted ? this.state.countdown : '-'}
                                 </div>
