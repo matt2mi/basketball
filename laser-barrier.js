@@ -1,7 +1,7 @@
 'use strict';
 const Gpio = require('onoff').Gpio;
 
-module.exports = class LaserBarrier {
+class LaserBarrier {
 
     constructor(ledsHandler) {
         console.log('laser.js => init');
@@ -53,4 +53,6 @@ module.exports = class LaserBarrier {
         console.log('laser.js => kill');
         this.PHOTO_RESISTANCE.unexport();
     }
-};
+}
+
+module.exports = LaserBarrier;

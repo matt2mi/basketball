@@ -1,7 +1,7 @@
 'use strict';
 const Gpio = require('onoff').Gpio;
 
-module.exports = class FlowingLeds {
+class LedsHandler {
 
     constructor() {
         this.init();
@@ -141,4 +141,6 @@ module.exports = class FlowingLeds {
         this.LED5.writeSync(0);
         this.LED6.writeSync(0);
     }
-};
+}
+
+module.exports = LedsHandler;

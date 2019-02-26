@@ -3,7 +3,7 @@ const Nes = require('nes');
 const FlowingLeds = require('./flowing-leds.js');
 const LaserBarrier = require('./laser-barrier');
 
-module.exports = class PiServer {
+class PiServer {
 
     constructor() {
         this.ledsHandler = new FlowingLeds();
@@ -70,4 +70,6 @@ module.exports = class PiServer {
 
         console.log('ws server started at', this.port);
     };
-};
+}
+
+module.exports = PiServer;
