@@ -27,7 +27,7 @@ class LaserBarrier {
                 console.log('score:', count);
 
                 if (count > 9) {
-                    server.publish('/gameover');
+                    server.publish('/gameover', {});
                     clearInterval(interval);
                     console.log('===== FIN DE PARTIE =====');
                 }
