@@ -9,8 +9,6 @@ import {Client} from "nes";
 // TODO : erreur pi-server.js:22
 
 
-
-
 class App extends Component {
 
     countdownTimer;
@@ -45,16 +43,13 @@ class App extends Component {
     }
 
     start() {
+        this.cli.subscribe('/gameover', this.gameOver);
+        this.cli.subscribe('/swish', this.handleScore);
         this.cli
-            .subscribe('/gameover', this.gameOver)
-            .then(() => {
-                this.cli
-                    .subscribe('/swish', this.handleScore)
-                    .then(() => this.cli.request('start'))
-                    .then((data) => {
-                        console.log(data);
-                        this.startParty();
-                    });
+            .request('start')
+            .then((data) => {
+                console.log(data);
+                this.startParty();
             });
     }
 
