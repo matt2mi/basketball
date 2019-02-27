@@ -50,7 +50,6 @@ class PiServer {
                 id: 'start',
                 handler: (request, h) => {
                     this.laserBarrier.startListening(this.server);
-                    // this.server.publish('/gameover');
                     return h.response('Party started !').code(200);
                 }
             }
@@ -59,16 +58,16 @@ class PiServer {
         this.server.subscription(
             '/swish',
             {
-		onUnsubscribe: () => console.log('unsub swish'),
-		onSubscribe: () => console.log('sub swish')
-	    }
+                onUnsubscribe: () => console.log('unsub swish'),
+                onSubscribe: () => console.log('sub swish')
+            }
         );
         this.server.subscription(
             '/gameover',
             {
-		onUnsubscribe: () => console.log('unsub game over'),
-		onSubscribe: () => console.log('sub swish')
-	    }
+                onUnsubscribe: () => console.log('unsub gameover'),
+                onSubscribe: () => console.log('sub gameover')
+            }
         );
         await this.server.start();
         console.log('ws server started at', this.port);

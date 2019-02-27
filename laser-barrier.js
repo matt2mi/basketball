@@ -11,8 +11,6 @@ class LaserBarrier {
     }
 
     startListening(server) {
-        console.log('laserBarrier.js => startListening');
-
         console.log('===== DEBUT DE PARTIE =====');
 
         let count = 0;
@@ -28,7 +26,7 @@ class LaserBarrier {
                 server.publish('/swish', { score: count });
                 console.log('score:', count);
 
-                if (count > 10) {
+                if (count > 9) {
                     server.publish('/gameover');
                     clearInterval(interval);
                     console.log('===== FIN DE PARTIE =====');
