@@ -32,16 +32,6 @@ html {
     padding: 10px 40px 10px 40px;
 }
 
-.score {
-    font-size: 200px;
-    line-height: 200px;
-}
-
-.time {
-    font-size: 100px;
-    line-height: 100px;
-}
-
 @font-face {
     font-family: 'Digitialism';
     font-style: normal;
@@ -53,36 +43,36 @@ html {
 .digitialism {
     color: red;
     font-family: 'Digitialism', serif;
-    /*text-shadow: 5px 5px 0 gray,*/
-    /*1px -1px 0 gray,*/
-    /*-1px 1px 0 gray,*/
-    /*1px 1px 0 gray;*/
 }
 
-.digit-number-front {
+.numbers {
+    font-size: 200px;
+    line-height: 200px;
+}
+
+.row-front {
     z-index: 10;
-    position: relative;
-    float: left;
-    right: -233px;
-    top: -201px;
+    position: inherit;
 }
 
-.digit-number-bgd {
-    z-index: 9;
-    color: #353535;
-    position: relative;
-    float: left;
-    right: -151px;
-    top: 5px;
+.digit-score-bgd {
+    z-index: 5;
+    position: absolute;
+    top: 40px;
+    left: 57px;
+    color: #1d1d1d;
 }
 
-.digit-pts-bgd {
-    z-index: 8;
-    color: #353535;
-    position: relative;
-    float: left;
-    right: -205px;
-    top: 5px;
+.digit-time-bgd {
+    z-index: 5;
+    position: absolute;
+    top: 40px;
+    left: 461px;
+    color: #1d1d1d;
+}
+
+.fix-letter-spacing {
+    letter-spacing: 3px;
 }
 
 .clock-border {

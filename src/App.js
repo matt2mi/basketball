@@ -20,13 +20,17 @@ class App extends Component {
         this.state = {
             connected: true,
             countdown: 30,
-            score: 88,
+            score: 0,
             partyStarted: false,
-            gameOver: false
+            gameOver: false,
+            scoreClass: '',
+            timeClass: ''
         };
 
         this.handleScore = this.handleScore.bind(this);
         this.start = this.start.bind(this);
+        this.setClasses = this.setClasses.bind(this);
+        this.transformNumber = this.transformNumber.bind(this);
         this.startParty = this.startParty.bind(this);
         this.gameOver = this.gameOver.bind(this);
 
@@ -46,6 +50,16 @@ class App extends Component {
     start() {
         this.setState({partyStarted: true});
 
+        this.setClasses();
+
+        const yop = setInterval(() => {
+            this.setState({score: this.state.score + 2, countdown: this.state.countdown - 1});
+            this.setClasses();
+            if (this.state.countdown <= 0) {
+                clearInterval(yop);
+            }
+        }, 1000);
+
         // this.cli.subscribe('/gameover', this.gameOver);
         // this.cli.subscribe('/swish', this.handleScore);
         // this.cli
@@ -54,6 +68,42 @@ class App extends Component {
         //         console.log(data);
         //         this.startParty();
         //     });
+    }
+
+    setClasses() {
+        const scoreTemp = this.state.score + '';
+        const timeTemp = this.state.countdown + '';
+
+        const valueScore = 'digit-number-front numbers' +
+            (scoreTemp[scoreTemp.length - 1] === '3' ||
+            scoreTemp[scoreTemp.length - 1] === '7' ||
+            scoreTemp[scoreTemp.length - 1] === '1' ||
+            scoreTemp === '22' ||
+            scoreTemp === '55' ?
+                ' fix-letter-spacing' : '');
+        const valueTime = 'digit-number-front numbers' +
+            (timeTemp[timeTemp.length - 1] === '3' ||
+            timeTemp[timeTemp.length - 1] === '7' ||
+            timeTemp[timeTemp.length - 1] === '1' ||
+            timeTemp === '22' ||
+            timeTemp === '55'  ?
+                ' fix-letter-spacing' : '');
+
+        console.log('score', valueScore);
+        console.log('time', valueTime);
+
+        this.setState({
+            scoreClass: valueScore,
+            timeClass: valueTime
+        });
+    }
+
+    transformNumber(nb) {
+        if(nb === 11 || nb === 21 || nb === 31) {
+            const str = '' + nb;
+            return [str.slice(0, str.length - 1), ' '].join('') + str[str.length-1];
+        }
+        return nb;
     }
 
     startParty() {
@@ -94,20 +144,29 @@ class App extends Component {
                     {/*</button>*/}
                     {/*</div>*/}
 
-                    <div className="col-12 score digitialism py-3">
-                        <div className="digit-number-bgd">
+                    <div className="col-12 py-3">
+                        <div className="row">
+                            <div className="col-6">score</div>
+                            <div className="col-6">temps</div>
+                        </div>
+                        <div className="row row-front digitialism">
+                            <div className="col-5 text-right">
+                                <div className={this.state.scoreClass}>
+                                    {this.transformNumber(this.state.score)}
+                                </div>
+                            </div>
+                            <div className="col-6 text-right">
+                                <div className={this.state.timeClass}>
+                                    {this.transformNumber(this.state.countdown)}
+                                </div>
+                            </div>
+                        </div>
+                        <div className="digitialism digit-score-bgd numbers">
                             888
                         </div>
-                        <div className="digit-pts-bgd">
-                            BBB
+                        <div className="digitialism digit-time-bgd numbers">
+                            888
                         </div>
-                        <div className="digit-number-front">
-                            {this.state.score} PTS
-                        </div>
-                    </div>
-
-                    <div className="col-12 time digitialism py-3">
-                        {this.state.countdown} SEC
                     </div>
                 </div>
             </div>
