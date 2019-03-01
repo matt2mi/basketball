@@ -1,25 +1,26 @@
 import React, {Component} from 'react';
 import logo from './logo.svg';
 import './App.css';
-import {Client} from "nes";
+// import {Client} from "nes";
 
 
+// TODO : font chiffres digitaux
 // TODO : tout gérer back => points + fin de partie / décompte front juste pour l'affichage
 // TODO : aligner les décomptes
-// TODO : erreur pi-server.js:22
 
 
 class App extends Component {
 
     countdownTimer;
-    cli = new Client('ws://192.168.0.10:3005');
+
+    // cli = new Client('ws://192.168.0.10:3005');
 
     constructor(props) {
         super(props);
         this.state = {
             connected: true,
-            countdown: 10,
-            score: 0,
+            countdown: 30,
+            score: 88,
             partyStarted: false,
             gameOver: false
         };
@@ -29,12 +30,12 @@ class App extends Component {
         this.startParty = this.startParty.bind(this);
         this.gameOver = this.gameOver.bind(this);
 
-        this.cli
-            .connect()
-            .then(() => {
-                console.log('connected');
-                this.setState({connected: true});
-            });
+        // this.cli
+        //     .connect()
+        //     .then(() => {
+        //         console.log('connected');
+        //         this.setState({connected: true});
+        //     });
     }
 
     handleScore(update, flags) {
@@ -43,14 +44,16 @@ class App extends Component {
     }
 
     start() {
-        this.cli.subscribe('/gameover', this.gameOver);
-        this.cli.subscribe('/swish', this.handleScore);
-        this.cli
-            .request('start')
-            .then((data) => {
-                console.log(data);
-                this.startParty();
-            });
+        this.setState({partyStarted: true});
+
+        // this.cli.subscribe('/gameover', this.gameOver);
+        // this.cli.subscribe('/swish', this.handleScore);
+        // this.cli
+        //     .request('start')
+        //     .then((data) => {
+        //         console.log(data);
+        //         this.startParty();
+        //     });
     }
 
     startParty() {
@@ -69,41 +72,63 @@ class App extends Component {
     }
 
     render() {
+        const waitingConnection = <div className="row">
+            <div className="col-12 text-center">
+                <img src={logo} className="App-logo" alt="logo"/>
+                <p>Waiting connection...</p>
+            </div>
+        </div>;
+
+        const gameOver = <div className="row">
+            <div className="col-12 text-center">
+                Bravo, t'as fait {this.state.score} points !!
+            </div>
+        </div>;
+
+        const partying = <div className="row justify-content-center">
+            <div className="clock-size">
+                <div className="row clock-border mx-3">
+                    {/*<div className="col-4">*/}
+                    {/*<button type="btn" className="btn btn-success" onClick={this.stop}>*/}
+                    {/*Stop*/}
+                    {/*</button>*/}
+                    {/*</div>*/}
+
+                    <div className="col-12 score digitialism py-3">
+                        <div className="digit-number-bgd">
+                            888
+                        </div>
+                        <div className="digit-pts-bgd">
+                            BBB
+                        </div>
+                        <div className="digit-number-front">
+                            {this.state.score} PTS
+                        </div>
+                    </div>
+
+                    <div className="col-12 time digitialism py-3">
+                        {this.state.countdown} SEC
+                    </div>
+                </div>
+            </div>
+        </div>;
+
         return (
             <div className="container-fluid app">
-                {
-                    !this.state.connected ?
-                        <div className="row">
-                            <div className="col-12 text-center">
-                                <img src={logo} className="App-logo" alt="logo"/>
-                                <p>Waiting connection...</p>
-                            </div>
-                        </div> :
-                        <div>
-                            <div className="row">
-                                <div className="col-4">
-                                    <button type="btn" className="btn btn-success" onClick={this.start}>
-                                        Start !
-                                    </button>
-                                </div>
+                <div className="row align-items-center full-h">
+                    <div className="col">
+                        {!this.state.connected && waitingConnection}
+                        {
+                            this.state.connected && !this.state.partyStarted &&
 
-                                <div className="col-4">
-                                    Score : {this.state.score}
-                                </div>
-
-                                <div className="col-4">
-                                    Temps restant : {this.state.partyStarted ? this.state.countdown : '-'}
-                                </div>
+                            <div className="btn-container">
+                                <button className="btn-3d green" onClick={this.start}>Start !</button>
                             </div>
-                            {
-                                this.state.gameOver &&
-                                <div className="row">
-                                    <div className="col-12 text-center">Bravo, t'as fait {this.state.score} points !!
-                                    </div>
-                                </div>
-                            }
-                        </div>
-                }
+                        }
+                        {this.state.connected && this.state.partyStarted && !this.state.gameOver && partying}
+                        {this.state.connected && this.state.partyStarted && this.state.gameOver && gameOver}
+                    </div>
+                </div>
             </div>
         );
     }
