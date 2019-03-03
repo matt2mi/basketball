@@ -33,16 +33,16 @@ html {
 }
 
 @font-face {
-    font-family: 'Digitialism';
+    font-family: 'Digitial';
     font-style: normal;
     font-weight: 400;
     src: local('Open Sans'), local('OpenSans'),
-    url('./digitalism.ttf') format('truetype');
+    url('./digital-7-mono.ttf') format('truetype');
 }
 
 .digitialism {
     color: red;
-    font-family: 'Digitialism', serif;
+    font-family: 'Digitial', serif;
 }
 
 .numbers {
@@ -59,7 +59,7 @@ html {
     z-index: 5;
     position: absolute;
     top: 40px;
-    left: 57px;
+    left: 49px;
     color: #1d1d1d;
 }
 
@@ -67,7 +67,7 @@ html {
     z-index: 5;
     position: absolute;
     top: 40px;
-    left: 461px;
+    left: 453px;
     color: #1d1d1d;
 }
 
