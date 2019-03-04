@@ -40,7 +40,7 @@ class LaserBarrier {
         console.log('===== DEBUT DE PARTIE =====');
 
         let count = 0;
-        let time = 30;
+        let time = 10;
 
         const interval = setInterval(() => {
             time--;
@@ -59,7 +59,6 @@ class LaserBarrier {
         ballPassing = !ballPassing;
         // this.ledsHandler.startWizzing();
         server.publish('/swish', {score: count});
-        console.log('score:', count);
         return ballPassing;
     }
 

@@ -56,6 +56,13 @@ class PiServer {
         });
 
         this.server.subscription(
+            '/time',
+            {
+                onUnsubscribe: () => console.log('unsub time'),
+                onSubscribe: () => console.log('sub time')
+            }
+        );
+        this.server.subscription(
             '/swish',
             {
                 onUnsubscribe: () => console.log('unsub swish'),

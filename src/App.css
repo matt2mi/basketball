@@ -27,17 +27,12 @@ html {
     height: 100vh; /* For 100% screen height */
 }
 
-.btn-start {
-    font-size: 90px;
-    padding: 10px 40px 10px 40px;
-}
-
 @font-face {
     font-family: 'Digitial';
     font-style: normal;
     font-weight: 400;
     src: local('Open Sans'), local('OpenSans'),
-    url('./digital-7-mono.ttf') format('truetype');
+    url('./components/playing/digital-7-mono.ttf') format('truetype');
 }
 
 .digitialism {
@@ -53,6 +48,10 @@ html {
 .row-front {
     z-index: 10;
     position: inherit;
+}
+
+.row-start {
+    margin-bottom: -40px;
 }
 
 .digit-score-bgd {
@@ -71,8 +70,9 @@ html {
     color: #1d1d1d;
 }
 
-.fix-letter-spacing {
-    letter-spacing: 3px;
+.clock-size {
+    width: 850px;
+    height: 375px;
 }
 
 .clock-border {
@@ -109,11 +109,8 @@ html {
 
 .btn-3d.green {
     background-color: #21c816;
-    box-shadow: 0 0 0 1px #82c8a0 inset,
-    0 0 0 2px rgba(255, 255, 255, 0.15) inset,
-    0 8px 0 0 rgba(65, 194, 86, 0.7),
-    0 8px 0 1px rgba(0, 0, 0, .4),
-    0 8px 8px 1px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 8px #12780b;
+    border: 1px solid white;
 }
 
 .btn-3d.green:active {
@@ -122,7 +119,147 @@ html {
     0 0 0 1px rgba(0, 0, 0, 0.4);
 }
 
-.clock-size {
-    width: 850px;
-    height: 375px;
+.score {
+    font-size: 80px;
+    font-weight: 100;
+    color: white;
+}
+
+hr {
+    background-color: white;
+}
+
+.mb-80 {
+    margin-bottom: -80px;
+}
+
+.first-bgd-top-left {
+    border-top: 1px solid white;
+    border-left: 1px solid white;
+    display: block;
+    float: right;
+    z-index: 8;
+    border-radius: 10px 0 0 0;
+    background-color: gold;
+    color: black;
+    height: 61px;
+    width: 120px;
+    position: relative;
+    top: -20px;
+    left: -394px;
+}
+
+.first-bgd-top-right {
+    border-top: 1px solid white;
+    border-right: 1px solid white;
+    display: block;
+    float: right;
+    z-index: 8;
+    border-radius: 0 10px 0 0;
+    background-color: gold;
+    color: black;
+    height: 76px;
+    width: 120px;
+    position: relative;
+    top: -20px;
+    left: -242px;
+}
+
+.first-bgd-bottom {
+    border-bottom: 1px solid white;
+    display: block;
+    float: right;
+    z-index: 5;
+    background-color: gold;
+    color: black;
+    height: 110px;
+    width: 150px;
+    position: relative;
+    top: 40px;
+    left: -123px;
+}
+
+.first {
+    z-index: 10;
+    border-radius: 10px 10px 0 0;
+    background-color: transparent;
+    color: black;
+    height: 170px;
+    width: 150px;
+    padding-top: 5px;
+    position: relative;
+    top: -20px;
+    left: 370px;
+    box-shadow: 0 10px 0 goldenrod;
+}
+
+.number-one {
+    color: rgba(0, 0, 0, 0.75);
+    font-size: 50px;
+    font-weight: bold;
+    text-shadow: 0 5px 0 rgba(0, 0, 0, 0.15);
+    box-shadow: 0 5px 0 rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.50);
+    border-radius: 50%;
+    width: 77px;
+    display: block;
+    margin: 0 auto 12px auto;
+}
+
+.second {
+    border-top: 1px solid white;
+    border-left: 1px solid white;
+    border-bottom: 1px solid white;
+    border-radius: 10px 0 0 10px;
+    box-shadow: 0 10px 0 #8c8c8c;
+    background-color: silver;
+    color: black;
+    height: 110px;
+    width: 150px;
+    padding-top: 10px;
+    position: relative;
+    top: 150px;
+    left: 220px;
+}
+
+.number-two {
+    color: rgba(0, 0, 0, 0.75);
+    font-size: 20px;
+    font-weight: bold;
+    text-shadow: 0 2px 0 rgba(0, 0, 0, 0.15);
+    box-shadow: 0 3px 0 rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.50);
+    border-radius: 50%;
+    width: 32px;
+    display: block;
+    margin: 0 auto 8px auto;
+}
+
+.third {
+    border-top: 1px solid white;
+    border-right: 1px solid white;
+    border-bottom: 1px solid white;
+    border-radius: 0 10px 10px 0;
+    box-shadow: 0 10px 0 #765506;
+    background-color: darkgoldenrod;
+    color: black;
+    height: 95px;
+    width: 150px;
+    position: relative;
+    top: -115px;
+    left: 520px;
+    padding-top: 6px;
+}
+
+.number-three {
+    color: rgba(0, 0, 0, 0.75);
+    font-size: 20px;
+    font-weight: bold;
+    text-shadow: 0 2px 0 rgba(0, 0, 0, 0.15);
+    box-shadow: 0 3px 0 rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.50);
+    border-radius: 50%;
+    width: 32px;
+    display: block;
+    margin: 0 auto 3px auto;
 }
