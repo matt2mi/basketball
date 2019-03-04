@@ -1,13 +1,13 @@
 const Hapi = require('hapi');
 const Nes = require('nes');
-const LedsHandler = require('./flowing-leds.js');
+// const LedsHandler = require('./flowing-leds.js');
 const LaserBarrier = require('./laser-barrier');
 
 class PiServer {
 
     constructor() {
-        this.ledsHandler = new LedsHandler();
-        this.laserBarrier = new LaserBarrier(this.ledsHandler);
+        // this.ledsHandler = new LedsHandler();
+        this.laserBarrier = new LaserBarrier(/*this.ledsHandler*/);
 
         this.port = 3005;
         this.server = new Hapi.Server({port: this.port});
@@ -31,7 +31,7 @@ class PiServer {
     killProcesses() {
         console.log('killProcesses');
         this.laserBarrier.kill();
-        this.ledsHandler.stop();
+        // this.ledsHandler.stop();
     }
 
     async start() {
@@ -49,7 +49,7 @@ class PiServer {
             config: {
                 id: 'start',
                 handler: (request, h) => {
-                    this.laserBarrier.startListening(this.server);
+                    this.laserBarrier.startListeningMock(this.server);
                     return h.response('Party started !').code(200);
                 }
             }

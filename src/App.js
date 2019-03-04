@@ -13,7 +13,8 @@ class App extends Component {
 
     countdownTimer;
 
-    cli = new Client('ws://192.168.0.10:3005');
+    cli = new Client('ws://localhost:3005');
+    // cli = new Client('ws://192.168.0.10:3005');
 
     constructor(props) {
         super(props);
@@ -28,6 +29,7 @@ class App extends Component {
         };
 
         this.handleScore = this.handleScore.bind(this);
+        this.time = this.time.bind(this);
         this.start = this.start.bind(this);
         this.startParty = this.startParty.bind(this);
         this.gameOver = this.gameOver.bind(this);
@@ -45,6 +47,10 @@ class App extends Component {
         this.setState({score: update.score});
     }
 
+    time(update, flags) {
+        this.setState({countdown: update.time});
+    }
+
     start() {
         this.setState({partyStarted: true});
 
@@ -55,8 +61,9 @@ class App extends Component {
         //     }
         // }, 1000);
 
-        this.cli.subscribe('/gameover', this.gameOver);
+        this.cli.subscribe('/time', this.time);
         this.cli.subscribe('/swish', this.handleScore);
+        this.cli.subscribe('/gameover', this.gameOver);
         this.cli
             .request('start')
             .then((data) => {
