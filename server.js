@@ -40,6 +40,31 @@ const init = async () => {
             }
         }
     });
+    server.route({
+        method: 'GET',
+        path: '/api/scoreboard',
+        config: {
+            id: 'scoreboard',
+            handler: (request, h) => {
+                return h
+                    .response([
+                        {username: 'mimil', points: 1},
+                        {username: 'mimil', points: 90},
+                        {username: 'mimil', points: 8},
+                        {username: 'mimil', points: 100},
+                        {username: 'mimil', points: 5},
+                        {username: 'mimil', points: 4},
+                        {username: 'mimil', points: 120},
+                        {username: 'mimil', points: 9},
+                        {username: 'mimil', points: 18},
+                        {username: 'mimil', points: 110},
+                        {username: 'mimil', points: 50},
+                        {username: 'mimil', points: 40}
+                    ])
+                    .code(200);
+            }
+        }
+    });
 
     await piServer.start();
 
