@@ -7,6 +7,7 @@ import {Client} from "nes";
 // TODO : un seul appel getScore (container podium)
 // TODO : erreur sur connection au client
 // TODO : finish divide in components + css too
+// TODO : animation sur game over (bravo t'as fait x pts)
 
 class App extends Component {
 
@@ -28,7 +29,7 @@ class App extends Component {
                 // {username: 'mimil', points: 5},
                 // {username: 'mimil', points: 4},
             ],
-            // .sort((currScore, prevScore) => prevScore.points - currScore.points),
+                // .sort((currScore, prevScore) => prevScore.points - currScore.points),
             scoresErrorMsg: '',
             nextAward: {}
         };
@@ -156,39 +157,42 @@ class App extends Component {
                             <div className="col-6">score</div>
                             <div className="col-6">temps</div>
                         </div>
+
                         <div className="row row-front digitialism">
                             <div className="col-5 text-right">
-                                <div className="digit-number-front numbers">
+                                <div className="numbers">
                                     {this.state.score}
                                 </div>
                             </div>
                             <div className="col-6 text-right">
-                                <div className="digit-number-front numbers">
+                                <div className="numbers">
                                     {this.state.countdown}
                                 </div>
                             </div>
                         </div>
+
                         <div className="digitialism digit-score-bgd numbers">
                             888
                         </div>
+
                         <div className="digitialism digit-time-bgd numbers">
                             888
                         </div>
-                    </div>
 
-                    <div className="col-12">
-                        Prochain record à battre :
-                    </div>
+                        <div className="row">
+                            <div className="col-12">Prochain record à battre ({this.state.nextAward.username})</div>
+                        </div>
 
-                    <div className="col-12">
-                        <div className="text-center">
-                            {
-                                (this.state.scores
-                                    .findIndex(score => score.points === this.state.nextAward.points) + 1) +
-                                'ème all time'
-                            }
-                            <br/>
-                            {this.state.nextAward.username + ' : ' + this.state.nextAward.points + ' points'}
+                        <div className="row row-front">
+                            <div className="col-8 text-right">
+                                <div className="digitialism numbers">
+                                    {this.state.nextAward.points}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="digitialism next-award-bgd numbers">
+                            888
                         </div>
                     </div>
                 </div>

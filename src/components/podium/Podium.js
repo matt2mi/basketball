@@ -53,7 +53,7 @@ class Podium extends Component {
                             <span className="first-bgd-bottom"/>
                             <div className="first">
                                 <span className="number-one">1</span>
-                                {this.state.scores[0].username}
+                                <div className="first-username">{this.state.scores[0].username}</div>
                                 <br/>
                                 {this.state.scores[0].points + ' points'}
                             </div>

@@ -66,9 +66,17 @@ html {
     color: #1d1d1d;
 }
 
+.next-award-bgd {
+    z-index: 5;
+    position: absolute;
+    top: 264px;
+    left: 251px;
+    color: #1d1d1d;
+}
+
 .clock-size {
     width: 850px;
-    height: 375px;
+    height: 500px;
 }
 
 .clock-border {
