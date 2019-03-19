@@ -52,7 +52,6 @@ class App extends Component {
 
     clientConnected() {
         this.setState({
-            connected: true,
             step: 'm',
             scores: this.state.scores
                 .sort((currScore, prevScore) => prevScore.points - currScore.points)
@@ -134,16 +133,11 @@ class App extends Component {
             </div>
         </div>;
 
-        const startBtn = <div className="col-12 text-center mb-4">
-            <button className="btn-3d green" onClick={this.start}>Start !</button>
-        </div>;
-
-        const restartBtn = <div className="col-12 text-center">
-            <button className="btn-3d green" onClick={this.start}>Restart !</button>
-        </div>;
-
         const main = <div className="row">
-            {startBtn}
+            <div className="col-12 text-center mb-4">
+                <button className="btn-3d green" onClick={this.start}>Start !</button>
+            </div>
+
             <div className="col-12 text-center">
                 <Podium/>
             </div>
@@ -203,7 +197,11 @@ class App extends Component {
             <div className="col-12 text-center">
                 Bravo, t'as fait {this.state.score} points !!
             </div>
-            {restartBtn}
+
+            <div className="col-12 text-center">
+                <button className="btn-3d green" onClick={this.start}>Restart !</button>
+            </div>
+
             <div className="col-12 text-center">
                 <Podium/>
             </div>

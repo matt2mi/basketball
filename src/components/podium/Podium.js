@@ -40,7 +40,7 @@ class Podium extends Component {
         if (this.state.scores.length > 0) {
             return (
                 <div>
-                    <div className="row justify-content-center mb-3">
+                    <div className="row justify-content-center mb-3 mt-3">
                         <div className="cadre-podium">
                             <div className="second">
                                 <span className="number-two">2</span>

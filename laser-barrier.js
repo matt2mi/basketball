@@ -1,10 +1,10 @@
 'use strict';
 
-// const Gpio = require('onoff').Gpio;
+const Gpio = require('onoff').Gpio;
 
 class LaserBarrier {
 
-    /*constructor(ledsHandler) {
+    constructor(ledsHandler) {
         this.PHOTO_RESISTANCE = new Gpio(20, 'in');
         this.ledsHandler = ledsHandler;
     }
@@ -17,6 +17,9 @@ class LaserBarrier {
 
         const timeInterval = setInterval(() => {
             time--;
+            if (time <= 0) {
+                this.gameover(server, timeInterval, interval);
+            }
             server.publish('/time', {time});
         }, 1000);
 
@@ -25,16 +28,12 @@ class LaserBarrier {
             if (val && !ballPassing) {
                 count += 2;
                 ballPassing = this.swishing(ballPassing, count, server);
-
-                if (time <= 0) {
-                    this.gameover(server, timeInterval, interval);
-                }
             }
             if (!val && ballPassing) {
                 ballPassing = !ballPassing;
             }
         }, 50);
-    }*/
+    }
 
     startListeningMock(server) {
         console.log('===== DEBUT DE PARTIE =====');
