@@ -123,8 +123,11 @@ class App extends Component {
     setNextAward() {
         const reverseList = this.state.scores.slice(0, 5).reverse();
         const nextAward = reverseList.find(score => score.points > this.state.score);
-        console.log('nextA', nextAward);
-        this.setState({nextAward});
+        if (nextAward) {
+            this.setState({nextAward});
+        } else {
+            this.setState({nextAward: {username: 'C\'est toi ouaich !!', points: '---'}});
+        }
     }
 
     render() {
