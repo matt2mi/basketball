@@ -11,9 +11,9 @@ import {Client} from "nes";
 
 class App extends Component {
 
-    cli = new Client('ws://localhost:3005');
+    // cli = new Client('ws://localhost:3005');
 
-    // cli = new Client('ws://192.168.0.10:3005');
+    cli = new Client('ws://192.168.0.10:3005');
 
     constructor(props) {
         super(props);
@@ -123,6 +123,7 @@ class App extends Component {
     setNextAward() {
         const reverseList = this.state.scores.slice(0, 5).reverse();
         const nextAward = reverseList.find(score => score.points > this.state.score);
+        console.log('nextA', nextAward);
         this.setState({nextAward});
     }
 
