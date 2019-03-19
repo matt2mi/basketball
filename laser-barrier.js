@@ -12,7 +12,8 @@ class LaserBarrier {
     startListening(server) {
         console.log('===== DEBUT DE PARTIE =====');
 
-        let count, time = 30;
+        let count = 0;
+        let time = 30;
         let ballPassing = false;
 
         const timeInterval = setInterval(() => {
