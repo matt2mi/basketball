@@ -21,15 +21,7 @@ class App extends Component {
             step: 'w',
             countdown: 30,
             score: 0,
-            scores: [
-                // {username: 'mimil', points: 1},
-                // {username: 'mimil', points: 90},
-                // {username: 'mimil', points: 8},
-                // {username: 'mimil', points: 100},
-                // {username: 'mimil', points: 5},
-                // {username: 'mimil', points: 4},
-            ],
-                // .sort((currScore, prevScore) => prevScore.points - currScore.points),
+            scores: [],
             scoresErrorMsg: '',
             nextAward: {}
         };
@@ -41,6 +33,7 @@ class App extends Component {
         this.gameOver = this.gameOver.bind(this);
         this.restart = this.restart.bind(this);
         this.getScores = this.getScores.bind(this);
+        this.addScore = this.addScore.bind(this);
         this.setNextAward = this.setNextAward.bind(this);
 
         this.cli
@@ -87,10 +80,11 @@ class App extends Component {
     }
 
     gameOver(update, flags) {
+        this.addScore(this.state.score);
         console.log('gameOver', update);
-        // this.cli.unsubscribe('/time');
-        // this.cli.unsubscribe('/swish');
-        // this.cli.unsubscribe('/gameover');
+        this.cli.unsubscribe('/time');
+        this.cli.unsubscribe('/swish');
+        this.cli.unsubscribe('/gameover');
         this.setState({step: 'g'});
     }
 
@@ -110,6 +104,18 @@ class App extends Component {
 
     getScores() {
         fetch('/api/scoreboard')
+            .then(res => res.json())
+            .then(scores => {
+                scores = scores
+                    .slice(0, 5)
+                    .sort((currScore, prevScore) => prevScore.points - currScore.points);
+                this.setState({scores});
+            })
+            .catch(err => this.setState({scoresErrorMsg: err}));
+    }
+
+    addScore(score) {
+        fetch('/api/addScore/' + score)
             .then(res => res.json())
             .then(scores => {
                 scores = scores

@@ -35,25 +35,12 @@
     left: -54px;
 }
 
-.first-bgd-bottom {
-    border-bottom: 1px solid white;
-    display: block;
-    float: right;
-    z-index: 5;
-    background-color: gold;
-    color: black;
-    height: 110px;
-    width: 150px;
-    position: relative;
-    top: -45px;
-    left: 65px;
-}
-
 .first {
     z-index: 10;
     border-radius: 10px 10px 0 0;
+    border-bottom: 1px solid #fff;
     box-shadow: 0 10px 0 goldenrod;
-    background-color: transparent;
+    background-color: gold;
     color: black;
     height: 170px;
     width: 150px;

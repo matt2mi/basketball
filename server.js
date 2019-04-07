@@ -5,6 +5,8 @@ const Path = require('path');
 const PiServer = require('./pi-server');
 const piServer = new PiServer();
 
+const scoreboard = [];
+
 // Create a server with a host and port
 const server = Hapi.server({
     //host: process.env.HOST || 'localhost',
@@ -47,20 +49,22 @@ const init = async () => {
             id: 'scoreboard',
             handler: (request, h) => {
                 return h
-                    .response([
-                        {username: 'mimil', points: 1},
-                        {username: 'mimil', points: 90},
-                        {username: 'mimil', points: 8},
-                        {username: 'mimil', points: 100},
-                        {username: 'mimil', points: 5},
-                        {username: 'mimil', points: 4},
-                        {username: 'mimil', points: 120},
-                        {username: 'mimil', points: 9},
-                        {username: 'mimil', points: 18},
-                        {username: 'mimil', points: 110},
-                        {username: 'mimil', points: 50},
-                        {username: 'mimil', points: 40}
-                    ])
+                    .response(scoreboard)
+                    .code(200);
+            }
+        }
+    });
+    server.route({
+        method: 'GET',
+        path: '/api/addScore/{newScore?}',
+        config: {
+            id: 'addScore',
+            handler: (request, h) => {
+                if(request.params.newScore) {
+                    scoreboard.push({username: 'yop', points: request.params.newScore});
+                }
+                return h
+                    .response(scoreboard)
                     .code(200);
             }
         }

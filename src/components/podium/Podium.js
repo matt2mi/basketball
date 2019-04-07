@@ -6,16 +6,7 @@ class Podium extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            scores: [
-                // {username: 'mimil', points: 1},
-                // {username: 'mimil', points: 90},
-                // {username: 'mimil', points: 8},
-                // {username: 'mimil', points: 100},
-                // {username: 'mimil', points: 5},
-                // {username: 'mimil', points: 4},
-                // {username: 'mimil', points: 120}
-            ],
-                // .sort((currScore, prevScore) => prevScore.points - currScore.points),
+            scores: [],
             scoresErrorMsg: ''
         };
 
@@ -44,24 +35,23 @@ class Podium extends Component {
                         <div className="cadre-podium">
                             <div className="second">
                                 <span className="number-two">2</span>
-                                {this.state.scores[1].username}
+                                {this.state.scores[1] ? this.state.scores[1].username : null}
                                 <br/>
-                                {this.state.scores[1].points + ' points'}
+                                {this.state.scores[1] ? this.state.scores[1].points + ' points' : null}
                             </div>
                             <span className="first-bgd-top-left"/>
                             <span className="first-bgd-top-right"/>
-                            <span className="first-bgd-bottom"/>
                             <div className="first">
                                 <span className="number-one">1</span>
-                                <div className="first-username">{this.state.scores[0].username}</div>
+                                {this.state.scores[0] ? this.state.scores[0].username : null}
                                 <br/>
-                                {this.state.scores[0].points + ' points'}
+                                {this.state.scores[0] ? this.state.scores[0].points + ' points' : null}
                             </div>
                             <div className="third">
                                 <span className="number-three">3</span>
-                                {this.state.scores[2].username}
+                                {this.state.scores[2] ? this.state.scores[2].username : null}
                                 <br/>
-                                {this.state.scores[2].points + ' points'}
+                                {this.state.scores[2] ? this.state.scores[2].points + ' points' : null}
                             </div>
                         </div>
                     </div>
