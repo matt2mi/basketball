@@ -20,8 +20,8 @@ class Podium extends Component {
             .then(res => res.json())
             .then(scores => {
                 scores = scores
-                    .slice(0, 5)
-                    .sort((currScore, prevScore) => prevScore.points - currScore.points);
+                    .sort((currScore, prevScore) => prevScore.score - currScore.score)
+                    .slice(0, 5);
                 this.setState({scores});
             })
             .catch(err => this.setState({scoresErrorMsg: err}));
@@ -37,7 +37,7 @@ class Podium extends Component {
                                 <span className="number-two">2</span>
                                 {this.state.scores[1] ? this.state.scores[1].username : null}
                                 <br/>
-                                {this.state.scores[1] ? this.state.scores[1].points + ' points' : null}
+                                {this.state.scores[1] ? this.state.scores[1].score + ' points' : null}
                             </div>
                             <span className="first-bgd-top-left"/>
                             <span className="first-bgd-top-right"/>
@@ -45,13 +45,13 @@ class Podium extends Component {
                                 <span className="number-one">1</span>
                                 {this.state.scores[0] ? this.state.scores[0].username : null}
                                 <br/>
-                                {this.state.scores[0] ? this.state.scores[0].points + ' points' : null}
+                                {this.state.scores[0] ? this.state.scores[0].score + ' points' : null}
                             </div>
                             <div className="third">
                                 <span className="number-three">3</span>
                                 {this.state.scores[2] ? this.state.scores[2].username : null}
                                 <br/>
-                                {this.state.scores[2] ? this.state.scores[2].points + ' points' : null}
+                                {this.state.scores[2] ? this.state.scores[2].score + ' points' : null}
                             </div>
                         </div>
                     </div>
@@ -67,7 +67,7 @@ class Podium extends Component {
                                         <div className="text-center" key={id}>
                                             {(id + 4) + 'ème'}
                                             <br/>
-                                            {score.username + ' : ' + score.points + ' points'}
+                                            {score.username + ' : ' + score.score + ' points'}
                                             {id < 1 ? <hr/> : null}
                                         </div>
                                     ))

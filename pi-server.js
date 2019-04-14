@@ -49,7 +49,7 @@ class PiServer {
             config: {
                 id: 'start',
                 handler: (request, h) => {
-                    this.laserBarrier.startListening(this.server);
+                    this.laserBarrier.startListeningMock(this.server);
                     return h.response('Party started !').code(200);
                 }
             }
