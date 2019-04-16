@@ -5,7 +5,25 @@ const Path = require('path');
 const PiServer = require('./pi-server');
 const piServer = new PiServer();
 
-const scoreboard = [];
+require('dotenv').config();
+const admin = require("firebase-admin");
+// get credentials from params > service accounts
+admin.initializeApp({
+    credential: admin.credential.cert({
+        "type": process.env.TYPE,
+        "project_id": process.env.PJ_ID,
+        "private_key_id": process.env.PV_KEY_ID,
+        "private_key": process.env.PV_KEY,
+        "client_email": process.env.CLI_MAIL,
+        "client_id": process.env.CLI_ID,
+        "auth_uri": process.env.AUTH_URI,
+        "token_uri": process.env.TOKEN_URI,
+        "auth_provider_x509_cert_url": process.env.CERT_URL,
+        "client_x509_cert_url": process.env.CLI_CERT_URL
+    }),
+    databaseURL: process.env.BDD_URL
+});
+const db = admin.database();
 
 // Create a server with a host and port
 const server = Hapi.server({
@@ -47,24 +65,45 @@ const init = async () => {
         path: '/api/scoreboard',
         config: {
             id: 'scoreboard',
-            handler: (request, h) => {
+            handler: async (request, h) => {
+                let scores = [];
+                await db.ref('scores').once('value', (snapshot) => {
+                    const scoresDB = snapshot.val();
+                    scores = Object
+                        .keys(scoresDB)
+                        .map(key => ({
+                            id: key,
+                            username: scoresDB[key].username,
+                            score: parseInt(scoresDB[key].score),
+                        }));
+                });
                 return h
-                    .response(scoreboard)
+                    .response(scores)
                     .code(200);
             }
         }
     });
     server.route({
         method: 'GET',
-        path: '/api/addScore/{newScore?}',
+        path: '/api/addScore/{pseudo}/{score}',
         config: {
             id: 'addScore',
             handler: (request, h) => {
-                if(request.params.newScore) {
-                    scoreboard.push({username: 'yop', points: request.params.newScore});
-                }
+                const newObject = db.ref('scores').push();
+                newObject
+                    .set({
+                        username: request.params.pseudo,
+                        score: request.params.score
+                    })
+                    .then(() => {
+                        console.log('end');
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                    });
+
                 return h
-                    .response(scoreboard)
+                    .response('sauvegardé !')
                     .code(200);
             }
         }

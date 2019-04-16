@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Podium from './components/podium/Podium';
+import Congrats from './components/congrats/Congrats';
 import {Client} from "nes";
 
 // TODO : un seul appel getScore (container podium)
@@ -33,7 +34,6 @@ class App extends Component {
         this.gameOver = this.gameOver.bind(this);
         this.restart = this.restart.bind(this);
         this.getScores = this.getScores.bind(this);
-        this.addScore = this.addScore.bind(this);
         this.setNextAward = this.setNextAward.bind(this);
 
         this.cli
@@ -44,11 +44,7 @@ class App extends Component {
     }
 
     clientConnected() {
-        this.setState({
-            step: 'm',
-            scores: this.state.scores
-                .sort((currScore, prevScore) => prevScore.points - currScore.points)
-        });
+        this.setState({step: 'm',});
         this.cli.subscribe('/time', this.handleTime);
         this.cli.subscribe('/swish', this.handleScore);
         this.cli.subscribe('/gameover', this.gameOver);
@@ -80,11 +76,7 @@ class App extends Component {
     }
 
     gameOver(update, flags) {
-        this.addScore(this.state.score);
         console.log('gameOver', update);
-        // this.cli.unsubscribe('/time');
-        // this.cli.unsubscribe('/swish');
-        // this.cli.unsubscribe('/gameover');
         this.setState({step: 'g'});
     }
 
@@ -106,29 +98,17 @@ class App extends Component {
         fetch('/api/scoreboard')
             .then(res => res.json())
             .then(scores => {
-                scores = scores
-                    .slice(0, 5)
-                    .sort((currScore, prevScore) => prevScore.points - currScore.points);
-                this.setState({scores});
-            })
-            .catch(err => this.setState({scoresErrorMsg: err}));
-    }
-
-    addScore(score) {
-        fetch('/api/addScore/' + score)
-            .then(res => res.json())
-            .then(scores => {
-                scores = scores
-                    .slice(0, 5)
-                    .sort((currScore, prevScore) => prevScore.points - currScore.points);
-                this.setState({scores});
+                const orderedScores = scores
+                    .sort((currScore, prevScore) => prevScore.points - currScore.points)
+                    .slice(0, 5);
+                this.setState({scores: orderedScores});
             })
             .catch(err => this.setState({scoresErrorMsg: err}));
     }
 
     setNextAward() {
         const reverseList = this.state.scores.slice(0, 5).reverse();
-        const nextAward = reverseList.find(score => score.points > this.state.score);
+        const nextAward = reverseList.find(score => score.score > this.state.score);
         if (nextAward) {
             this.setState({nextAward});
         } else {
@@ -190,7 +170,7 @@ class App extends Component {
                         <div className="row row-front">
                             <div className="col-8 text-right">
                                 <div className="digitialism numbers">
-                                    {this.state.nextAward.points}
+                                    {this.state.nextAward.score}
                                 </div>
                             </div>
                         </div>
@@ -205,15 +185,15 @@ class App extends Component {
 
         const gameOver = <div className="row">
             <div className="col-12 text-center">
-                Bravo, t'as fait {this.state.score} points !!
+                <Congrats />
             </div>
 
-            <div className="col-12 text-center">
-                <button className="btn-3d green" onClick={this.start}>Restart !</button>
-            </div>
-
-            <div className="col-12 text-center">
+            <div className="col-12 col-sm-6 text-center">
                 <Podium/>
+            </div>
+
+            <div className="col-12 col-sm-6 text-center">
+                <button className="btn-3d green" onClick={this.start}>Restart !</button>
             </div>
         </div>;
 

@@ -1,0 +1,43 @@
+.enter-ico {
+    height: 20px;
+    position: absolute;
+    top: 9px;
+    right: 24px;
+}
+
+.save-ico {
+    height: 26px;
+}
+
+.congrats-meme {
+    height: 200px;
+}
+
+.congrats-txt {
+    font-size: xx-large;
+}
+
+.btn-3d-save {
+    position: relative;
+    outline: none;
+    display: inline-block;
+    font-weight: 100;
+    padding: 5px 5px;
+    color: white;
+    margin: 0;
+    border-radius: 6px;
+    text-align: center;
+    transition: top .01s linear;
+    text-shadow: 0 2px 0 rgba(0, 0, 0, 0.15);
+}
+
+.btn-3d-save.green-save {
+    background-color: transparent;
+    border: 1px solid white;
+}
+
+.btn-3d-save.green-save:active {
+    box-shadow: 0 0 0 1px #82c8a0 inset,
+    0 0 0 2px rgba(255, 255, 255, 0.15) inset,
+    0 0 0 1px rgba(0, 0, 0, 0.4);
+}
