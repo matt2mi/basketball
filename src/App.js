@@ -82,9 +82,9 @@ class App extends Component {
     gameOver(update, flags) {
         this.addScore(this.state.score);
         console.log('gameOver', update);
-        this.cli.unsubscribe('/time');
-        this.cli.unsubscribe('/swish');
-        this.cli.unsubscribe('/gameover');
+        // this.cli.unsubscribe('/time');
+        // this.cli.unsubscribe('/swish');
+        // this.cli.unsubscribe('/gameover');
         this.setState({step: 'g'});
     }
 
