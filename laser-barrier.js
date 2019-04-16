@@ -1,11 +1,11 @@
 'use strict';
 
-// const Gpio = require('onoff').Gpio;
+const Gpio = require('onoff').Gpio;
 
 class LaserBarrier {
 
     constructor(ledsHandler) {
-        // this.PHOTO_RESISTANCE = new Gpio(20, 'in');
+        this.PHOTO_RESISTANCE = new Gpio(20, 'in');
         // this.ledsHandler = ledsHandler;
     }
 
@@ -74,7 +74,7 @@ class LaserBarrier {
     }
 
     kill() {
-        // this.PHOTO_RESISTANCE.unexport();
+        this.PHOTO_RESISTANCE.unexport();
     }
 }
 

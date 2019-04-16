@@ -6,9 +6,10 @@ import enter from './enter.png';
 class Podium extends Component {
 
     constructor(props) {
+        console.log('score', props.score);
         super(props);
         this.state = {
-            score: 30,
+            score: props.score,
             pseudo: '',
             savedScore: false
         };

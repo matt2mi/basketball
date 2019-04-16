@@ -12,9 +12,9 @@ import {Client} from "nes";
 
 class App extends Component {
 
-    // cli = new Client('ws://localhost:3005');
+    cli = new Client('ws://localhost:3005');
 
-    cli = new Client('ws://192.168.0.10:3005');
+    // cli = new Client('ws://192.168.0.10:3005');
 
     constructor(props) {
         super(props);
@@ -185,7 +185,7 @@ class App extends Component {
 
         const gameOver = <div className="row">
             <div className="col-12 text-center">
-                <Congrats />
+                <Congrats score={this.state.score}/>
             </div>
 
             <div className="col-12 col-sm-6 text-center">
