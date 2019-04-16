@@ -74,7 +74,7 @@ const init = async () => {
                         .map(key => ({
                             id: key,
                             username: scoresDB[key].username,
-                            score: scoresDB[key].score,
+                            score: parseInt(scoresDB[key].score),
                         }));
                 });
                 return h

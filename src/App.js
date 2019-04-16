@@ -12,9 +12,9 @@ import {Client} from "nes";
 
 class App extends Component {
 
-    cli = new Client('ws://localhost:3005');
+    // cli = new Client('ws://localhost:3005');
 
-    // cli = new Client('ws://192.168.0.10:3005');
+    cli = new Client('ws://192.168.0.10:3005');
 
     constructor(props) {
         super(props);
@@ -22,6 +22,7 @@ class App extends Component {
             step: 'w',
             countdown: 30,
             score: 0,
+            scores: [],
             scoresErrorMsg: '',
             nextAward: {}
         };
@@ -76,9 +77,6 @@ class App extends Component {
 
     gameOver(update, flags) {
         console.log('gameOver', update);
-        this.cli.unsubscribe('/time');
-        this.cli.unsubscribe('/swish');
-        this.cli.unsubscribe('/gameover');
         this.setState({step: 'g'});
     }
 
@@ -100,17 +98,17 @@ class App extends Component {
         fetch('/api/scoreboard')
             .then(res => res.json())
             .then(scores => {
-                scores = scores
+                const orderedScores = scores
                     .sort((currScore, prevScore) => prevScore.points - currScore.points)
                     .slice(0, 5);
-                this.setState({scores});
+                this.setState({scores: orderedScores});
             })
             .catch(err => this.setState({scoresErrorMsg: err}));
     }
 
     setNextAward() {
         const reverseList = this.state.scores.slice(0, 5).reverse();
-        const nextAward = reverseList.find(score => score.points > this.state.score);
+        const nextAward = reverseList.find(score => score.score > this.state.score);
         if (nextAward) {
             this.setState({nextAward});
         } else {
@@ -172,7 +170,7 @@ class App extends Component {
                         <div className="row row-front">
                             <div className="col-8 text-right">
                                 <div className="digitialism numbers">
-                                    {this.state.nextAward.points}
+                                    {this.state.nextAward.score}
                                 </div>
                             </div>
                         </div>

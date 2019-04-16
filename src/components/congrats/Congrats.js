@@ -22,7 +22,7 @@ class Podium extends Component {
     }
 
     onKeyDown(event) {
-        if (event.key === 'Enter') {
+        if (event.key === 'Enter' && this.state.pseudo.length > 0) {
             event.preventDefault();
             event.stopPropagation();
             console.log('save ' + this.state.score + ' to ' + this.state.pseudo);
