@@ -6,7 +6,6 @@ import enter from './enter.png';
 class Podium extends Component {
 
     constructor(props) {
-        console.log('score', props.score);
         super(props);
         this.state = {
             score: props.score,
@@ -14,6 +13,7 @@ class Podium extends Component {
             savedScore: false
         };
 
+        this.updateScores = props.updateScores.bind(this);
         this.onKeyDown = this.onKeyDown.bind(this);
         this.pseudoChange = this.pseudoChange.bind(this);
     }
@@ -26,11 +26,10 @@ class Podium extends Component {
         if (event.key === 'Enter' && this.state.pseudo.length > 0) {
             event.preventDefault();
             event.stopPropagation();
-            console.log('save ' + this.state.score + ' to ' + this.state.pseudo);
             fetch('/api/addScore/' + this.state.pseudo + '/' + this.state.score)
                 .then(() => {
-                    console.log('saved');
                     this.setState({savedScore: true});
+                    this.updateScores();
                 })
                 .catch(error => console.error(error));
         }

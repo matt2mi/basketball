@@ -5,16 +5,12 @@ import Podium from './components/podium/Podium';
 import Congrats from './components/congrats/Congrats';
 import {Client} from "nes";
 
-// TODO : un seul appel getScore (container podium)
 // TODO : erreur sur connection au client
 // TODO : finish divide in components + css too
-// TODO : animation sur game over (bravo t'as fait x pts)
 
 class App extends Component {
 
     cli = new Client('ws://localhost:3005');
-
-    // cli = new Client('ws://192.168.0.10:3005');
 
     constructor(props) {
         super(props);
@@ -99,15 +95,14 @@ class App extends Component {
             .then(res => res.json())
             .then(scores => {
                 const orderedScores = scores
-                    .sort((currScore, prevScore) => prevScore.points - currScore.points)
-                    .slice(0, 5);
+                    .sort((currScore, prevScore) => prevScore.score - currScore.score);
                 this.setState({scores: orderedScores});
             })
             .catch(err => this.setState({scoresErrorMsg: err}));
     }
 
     setNextAward() {
-        const reverseList = this.state.scores.slice(0, 5).reverse();
+        const reverseList = Array.from(this.state.scores).reverse();
         const nextAward = reverseList.find(score => score.score > this.state.score);
         if (nextAward) {
             this.setState({nextAward});
@@ -129,7 +124,7 @@ class App extends Component {
             </div>
 
             <div className="col-12 text-center">
-                <Podium/>
+                {this.state.scores.length > 1 ? <Podium scores={this.state.scores}/> : null}
             </div>
         </div>;
 
@@ -185,11 +180,11 @@ class App extends Component {
 
         const gameOver = <div className="row">
             <div className="col-12 text-center">
-                <Congrats score={this.state.score}/>
+                <Congrats score={this.state.score} updateScores={this.getScores}/>
             </div>
 
             <div className="col-12 col-sm-6 text-center">
-                <Podium/>
+                {this.state.scores.length > 1 ? <Podium scores={this.state.scores}/> : null}
             </div>
 
             <div className="col-12 col-sm-6 text-center">

@@ -6,25 +6,15 @@ class Podium extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            scores: [],
+            scores: Array.from(props.scores).slice(0, 5),
             scoresErrorMsg: ''
         };
-
-        this.getScores = this.getScores.bind(this);
-
-        this.getScores();
     }
 
-    getScores() {
-        fetch('/api/scoreboard')
-            .then(res => res.json())
-            .then(scores => {
-                scores = scores
-                    .sort((currScore, prevScore) => prevScore.score - currScore.score)
-                    .slice(0, 5);
-                this.setState({scores});
-            })
-            .catch(err => this.setState({scoresErrorMsg: err}));
+    componentWillReceiveProps(nextProps) {
+        if (this.state.scores.length !== nextProps.scores) {
+            this.setState({scores: Array.from(nextProps.scores).slice(0, 5)});
+        }
     }
 
     render() {
