@@ -3,7 +3,12 @@ import logo from './logo.svg';
 import './App.css';
 import Podium from './components/podium/Podium';
 import Congrats from './components/congrats/Congrats';
-import {Client} from "nes";
+import {Client} from 'nes';
+import {Howl} from 'howler';
+import buzzerSound from './sounds/buzzer.mp3';
+import bucketSound from './sounds/bucket_coin.mp3';
+import crowdSound from './sounds/crowd.mp3';
+import endSound from './sounds/fin_possession.mp3';
 
 // TODO : erreur sur connection au client
 // TODO : finish divide in components + css too
@@ -32,6 +37,12 @@ class App extends Component {
         this.getScores = this.getScores.bind(this);
         this.setNextAward = this.setNextAward.bind(this);
 
+        this.buzzer = new Howl({src: [buzzerSound]});
+        this.bucket = new Howl({src: [bucketSound]});
+        this.crowd = new Howl({src: [crowdSound]});
+        this.end = new Howl({src: [endSound]});
+        this.endStarted = false;
+
         this.cli
             .connect()
             .then(this.clientConnected);
@@ -47,16 +58,25 @@ class App extends Component {
     }
 
     handleScore(update, flags) {
+        this.bucket.play();
+
         console.log('swish !', update);
         this.setState({score: update.score});
         this.setNextAward();
     }
 
     handleTime(update, flags) {
+        if(update.time < 7 && !this.endStarted) {
+            this.end.play();
+            this.endStarted = true;
+        }
+
         this.setState({countdown: update.time});
     }
 
     start() {
+        this.crowd.play();
+
         console.log('start');
         this.cli
             .request('start')
@@ -72,6 +92,11 @@ class App extends Component {
     }
 
     gameOver(update, flags) {
+        this.end.stop();
+        this.crowd.stop();
+        this.buzzer.play();
+        this.buzzer.fade(1, 0, 2000);
+
         console.log('gameOver', update);
         this.setState({step: 'g'});
     }

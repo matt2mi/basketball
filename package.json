@@ -9,6 +9,7 @@
     "firebase-admin": "^7.2.0",
     "hapi": "^18.1.0",
     "hapi-pino": "^5.4.1",
+    "howler": "^2.1.2",
     "inert": "^5.1.2",
     "nes": "^10.0.0",
     "nodemon": "^1.18.10",
