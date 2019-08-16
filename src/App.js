@@ -15,7 +15,8 @@ import endSound from './sounds/fin_possession.mp3';
 
 class App extends Component {
 
-    cli = new Client('ws://localhost:3005');
+    // cli = new Client('ws://localhost:3005');
+    cli;
 
     constructor(props) {
         super(props);
@@ -36,6 +37,9 @@ class App extends Component {
         this.restart = this.restart.bind(this);
         this.getScores = this.getScores.bind(this);
         this.setNextAward = this.setNextAward.bind(this);
+
+        const domain = window.location.href.substr(7).split(':')[0];
+        this.cli = new Client('ws://' + domain + ':3005');
 
         this.buzzer = new Howl({src: [buzzerSound]});
         this.bucket = new Howl({src: [bucketSound]});
